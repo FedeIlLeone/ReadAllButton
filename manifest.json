@@ -1,18 +1,19 @@
 {
-  "id": "dev.replugged.PluginTemplate",
-  "name": "Plugin Template",
-  "description": "A plugin template",
+  "id": "dev.fedeilleone.ReadAllButton",
+  "name": "ReadAllButton",
+  "description": "Adds a button to read everything",
   "author": {
-    "name": "replugged",
-    "discordID": "1000992611840049192",
-    "github": "replugged-org"
+    "name": "FedeIlLeone",
+    "discordID": "403195964241739776",
+    "github": "FedeIlLeone"
   },
   "version": "1.0.0",
   "updater": {
     "type": "github",
-    "id": "replugged-org/plugin-template"
+    "id": "FedeIlLeone/ReadAllButton"
   },
   "license": "MIT",
   "type": "replugged-plugin",
-  "renderer": "src/index.ts"
+  "renderer": "src/index.tsx",
+  "plaintextPatches": "src/plaintextPatches.ts"
 }
