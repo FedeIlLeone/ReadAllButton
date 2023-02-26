@@ -1,19 +1,11 @@
 .readAllButton {
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 48px;
   height: 36px;
-  -webkit-transition: color 0.15s ease-out, background-color 0.15s ease-out;
   transition: color 0.15s ease-out, background-color 0.15s ease-out;
   border-radius: 10px;
   margin-bottom: 2px;
@@ -26,10 +18,28 @@
   background-color: var(--brand-experiment);
 }
 
+.readAllButton.round {
+  height: 48px;
+  border-radius: 50%;
+}
+
 .theme-dark.custom-theme-background .readAllButton:not(.selected) {
   background: rgb(var(--bg-overlay-color-inverse) / var(--bg-overlay-opacity-6));
 }
 
 .theme-light.custom-theme-background .readAllButton:not(.selected) {
   background: rgb(var(--bg-overlay-color) / var(--bg-overlay-opacity-3));
+}
+
+.readAllButton-preview {
+  background-color: var(--background-tertiary);
+  padding: 16px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.readAllButton-preview div {
+  margin: 0;
 }

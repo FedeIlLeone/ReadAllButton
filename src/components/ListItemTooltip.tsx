@@ -42,8 +42,9 @@ export default ((props) => {
       spacing={20}
       text={disabled ? "" : text}
       tooltipClassName={`${classes.listItemTooltip} ${tooltipClass}`}>
-      // TODO: complete this thing below
-      {disableWrapper ? null : (
+      {disableWrapper ? (
+        props.children
+      ) : (
         <div className={`${classes.listItemWrapper} ${selected ? classes.selected : ""}`}>
           {props.children}
         </div>
