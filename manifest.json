@@ -1,7 +1,7 @@
 {
   "id": "dev.fedeilleone.ReadAllButton",
   "name": "ReadAllButton",
-  "description": "Adds a button to read everything",
+  "description": "Adds a button to mark as read everything.",
   "author": {
     "name": "FedeIlLeone",
     "discordID": "403195964241739776",
