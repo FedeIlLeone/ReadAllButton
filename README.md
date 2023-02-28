@@ -6,6 +6,14 @@ Replugged plugin that adds a button to mark as read everything.
 
 <img src="assets/preview.gif" width="400">
 
+## To-Do
+
+- [x] Mark as read all servers.
+- [x] Button customization.
+- [ ] Whitelist servers from getting marked as read.
+- [ ] Mark as read all DMs.
+- [ ] Use context menu on home button.
+
 ## Credits
 
 - [GriefMoDz](https://github.com/griefmodz) for the button injection function.
