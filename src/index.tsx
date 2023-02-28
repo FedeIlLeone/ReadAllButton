@@ -85,28 +85,19 @@ function patchGuildsNavBar(component: JSX.Element): void {
     const NavScroll = findInReactTree(res, (node) => node?.props?.onScroll);
     if (!NavScroll?.props?.children) return res;
 
-    let StatisticCounterIndex = 2;
+    let index = 2;
 
     const getIndexByKeyword = (keyword: string): number =>
       NavScroll.props.children.findIndex((child: React.ReactElement) =>
         child?.type?.toString()?.includes(keyword),
       );
 
-    const FavouritesIndex = getIndexByKeyword("favorites");
-    if (FavouritesIndex !== -1) {
-      StatisticCounterIndex = FavouritesIndex + 1;
-    } else {
-      const HomeButtonIndex = getIndexByKeyword("getHomeLink");
-      if (HomeButtonIndex !== -1) {
-        StatisticCounterIndex = HomeButtonIndex + 1;
-      }
+    const GuildSeparatorIndex = getIndexByKeyword("guildSeparator");
+    if (index !== -1) {
+      index = GuildSeparatorIndex - 1;
     }
 
-    NavScroll.props.children.splice(
-      StatisticCounterIndex,
-      0,
-      <ReadAllButton onClick={markAsRead} />,
-    );
+    NavScroll.props.children.splice(index, 0, <ReadAllButton onClick={markAsRead} />);
 
     return res;
   });

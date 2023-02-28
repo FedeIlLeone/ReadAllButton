@@ -6,7 +6,8 @@
   box-sizing: border-box;
   width: 48px;
   height: 36px;
-  transition: color 0.15s ease-out, background-color 0.15s ease-out;
+  transition: color 0.15s ease-out, background-color 0.15s ease-out, height 0.15s ease-out,
+    border-radius 0.15s ease-out;
   border-radius: 10px;
   margin-bottom: 2px;
   color: var(--text-normal);
@@ -29,17 +30,4 @@
 
 .theme-light.custom-theme-background .readAllButton:not(.selected) {
   background: rgb(var(--bg-overlay-color) / var(--bg-overlay-opacity-3));
-}
-
-.readAllButton-preview {
-  background-color: var(--background-tertiary);
-  padding: 16px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.readAllButton-preview div {
-  margin: 0;
 }

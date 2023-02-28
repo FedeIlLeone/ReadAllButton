@@ -1,20 +1,8 @@
 import type React from "react";
-import { common, components, util } from "replugged";
-import { ReadAllButton } from ".";
+import { components, util } from "replugged";
 import { cfg } from "..";
 
-const { toast } = common;
 const { FormItem, SwitchItem } = components;
-
-function Preview(): React.ReactElement {
-  return (
-    <div className="readAllButton-preview">
-      <ReadAllButton
-        onClick={() => cfg.get("toasts") && toast.toast("Toasts are enabled!", toast.Kind.SUCCESS)}
-      />
-    </div>
-  );
-}
 
 export default (): React.ReactElement => {
   const useRoundButton = util.useSetting(cfg, "roundButton");
@@ -23,9 +11,6 @@ export default (): React.ReactElement => {
 
   return (
     <>
-      <FormItem title="Preview" style={{ marginBottom: 20 }}>
-        <Preview />
-      </FormItem>
       <FormItem title="Appearance">
         <SwitchItem {...useRoundButton}>Use a round button</SwitchItem>
         <SwitchItem {...useText} note="Disables the tooltip as well">
