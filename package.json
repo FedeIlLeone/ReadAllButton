@@ -1,7 +1,7 @@
 {
-  "name": "plugin-template",
+  "name": "readallbutton",
   "version": "1.0.0",
-  "description": "A plugin template",
+  "description": "Adds a button to mark as read everything.",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -18,7 +18,7 @@
     "lint:fix": "pnpm run prettier:fix && pnpm run eslint:fix"
   },
   "keywords": [],
-  "author": "",
+  "author": "FedeIlLeone",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.14.2",
