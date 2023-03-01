@@ -92,9 +92,9 @@ function patchGuildsNavBar(component: JSX.Element): void {
         child?.type?.toString()?.includes(keyword),
       );
 
-    const GuildSeparatorIndex = getIndexByKeyword("guildSeparator");
+    const StudentHubsIndex = getIndexByKeyword("isOnHubVerificationRoute");
     if (index !== -1) {
-      index = GuildSeparatorIndex - 1;
+      index = StudentHubsIndex - 1;
     }
 
     NavScroll.props.children.splice(index, 0, <ReadAllButton onClick={markAsRead} />);
