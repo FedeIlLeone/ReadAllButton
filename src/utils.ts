@@ -1,6 +1,13 @@
+import type {
+  ActiveThreadsStore,
+  GuildChannelStore,
+  Predicate,
+  ReadStateStore,
+  Settings,
+} from "@types";
+import type { ChannelStore } from "discord-types/stores";
 import { settings, util, webpack } from "replugged";
 import { inject } from ".";
-import type { GuildChannelStore, Predicate, ReadStateStore, Settings } from "@types";
 
 const defaultSettings: Partial<Settings> = {
   roundButton: false,
@@ -13,13 +20,23 @@ export const cfg = await settings.init<Settings, keyof typeof defaultSettings>(
   defaultSettings,
 );
 
-export const { lastMessageId }: ReadStateStore = await webpack
-  .waitForModule(webpack.filters.byProps("lastMessageId"))
-  .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["lastMessageId"])));
+export const { getThreadsForGuild }: ActiveThreadsStore = await webpack
+  .waitForModule(webpack.filters.byProps("getThreadsForGuild"))
+  .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["getThreadsForGuild"])));
+
+export const { getSortedPrivateChannels }: ChannelStore = await webpack
+  .waitForModule(webpack.filters.byProps("getSortedPrivateChannels"))
+  .then((mod) =>
+    Object.getPrototypeOf(webpack.getExportsForProps(mod, ["getSortedPrivateChannels"])),
+  );
 
 export const { getChannels }: GuildChannelStore = await webpack
   .waitForModule(webpack.filters.byProps("getChannels"))
   .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["getChannels"])));
+
+export const { hasUnread, lastMessageId }: ReadStateStore = await webpack
+  .waitForModule(webpack.filters.byProps("lastMessageId"))
+  .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["lastMessageId"])));
 
 // https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L6-L25
 export function findInReactTree(

@@ -1,7 +1,23 @@
 import type { Channel } from "discord-types/general";
 import type { RawModule } from "replugged/dist/types";
 
+interface Settings {
+  roundButton?: boolean;
+  text?: boolean;
+  toasts?: boolean;
+}
+
 type Comparator<T> = (a: T, b: T) => boolean;
+type Predicate<Arg> = (arg: Arg) => boolean;
+
+interface ThreadChannel {
+  id: string;
+  parentId: string;
+}
+
+interface ActiveThreadsStore {
+  getThreadsForGuild: (id: string) => Record<string, Record<string, ThreadChannel>>;
+}
 
 interface GuildChannelStore {
   getChannels: (id: string) => {
@@ -10,6 +26,11 @@ interface GuildChannelStore {
     SELECTABLE: Array<{ channel: Channel; comparator: number }>;
     VOCAL: Array<{ channel: Channel; comparator: number }>;
   };
+}
+
+interface ReadStateStore {
+  hasUnread: (id: string) => boolean;
+  lastMessageId: (id: string, event: number) => string;
 }
 
 interface GuildClasses extends RawModule {
@@ -35,16 +56,4 @@ interface GuildsNavComponent extends RawModule {
 interface GuildsNavProps {
   className: string;
   themeOverride: string;
-}
-
-type Predicate<Arg> = (arg: Arg) => boolean;
-
-interface ReadStateStore {
-  lastMessageId: (id: string, event: number) => string;
-}
-
-interface Settings {
-  roundButton?: boolean;
-  text?: boolean;
-  toasts?: boolean;
 }

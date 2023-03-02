@@ -8,11 +8,9 @@ Replugged plugin that adds a button to mark as read everything.
 
 ## To-Do
 
-- [x] Mark as read all servers.
-- [x] Button customization.
-- [ ] Whitelist servers from getting marked as read.
-- [ ] Mark as read all DMs.
-- [ ] Use context menu on home button.
+- Blacklist servers from getting marked as read.
+- Use context menu on home button.
+- Settings to decide what to mark as read.
 
 ## Credits
 

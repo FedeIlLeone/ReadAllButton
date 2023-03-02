@@ -1,8 +1,17 @@
+import type { GuildClasses, GuildsNavComponent } from "@types";
 import { Injector, common, util, webpack } from "replugged";
 import { ReadAllButton, Settings } from "./components";
 import "./style.css";
-import type { GuildClasses, GuildsNavComponent } from "@types";
-import { cfg, findInReactTree, forceUpdate, getChannels, lastMessageId } from "./utils";
+import {
+  cfg,
+  findInReactTree,
+  forceUpdate,
+  getChannels,
+  getSortedPrivateChannels,
+  getThreadsForGuild,
+  hasUnread,
+  lastMessageId,
+} from "./utils";
 
 const { fluxDispatcher, guilds, toast } = common;
 
@@ -18,39 +27,56 @@ enum READ_STATES {
   NOTIFICATION_CENTER,
 }
 
-function readChannels(guildIds: string[]): void {
-  const channelsList = guildIds
-    .map((id) => getChannels(id).SELECTABLE.map(({ channel }) => channel.id))
-    .flat();
-
-  const dispatchChannels = channelsList.map((id) => ({
+function bulkDispatch(list: string[], event: number): void {
+  const dispatchChannels = list.map((id) => ({
     channelId: id,
-    readStateType: READ_STATES.CHANNEL,
-    messageId: lastMessageId(id, READ_STATES.CHANNEL),
+    readStateType: event,
+    messageId: lastMessageId(id, event),
   }));
   if (!dispatchChannels.length) return;
 
   fluxDispatcher.dispatch({ type: "BULK_ACK", channels: dispatchChannels, context: "APP" });
 }
 
-function readEvents(guildIds: string[]): void {
-  const eventChannels = guildIds.map((id) => ({
-    channelId: id,
-    readStateType: READ_STATES.GUILD_EVENT,
-    messageId: lastMessageId(id, READ_STATES.GUILD_EVENT),
-  }));
-  if (!eventChannels.length) return;
+function readChannels(guildIds: string[]): void {
+  const textChannelsList = guildIds
+    .map((id) => getChannels(id).SELECTABLE.map(({ channel }) => channel.id))
+    .flat();
+  const threadsList = guildIds
+    .map((id) => Object.values(getThreadsForGuild(id)))
+    .flat()
+    .map((thread) => Object.keys(thread))
+    .flat();
 
-  fluxDispatcher.dispatch({ type: "BULK_ACK", channels: eventChannels, context: "APP" });
+  const channelsList = [...textChannelsList, ...threadsList].filter((id) => hasUnread(id));
+
+  bulkDispatch(channelsList, READ_STATES.CHANNEL);
 }
 
-function markAsRead(): void {
+function readEvents(guildIds: string[]): void {
+  bulkDispatch(guildIds, READ_STATES.GUILD_EVENT);
+}
+
+function markGuildAsRead(): void {
   const guildIds = Object.keys(guilds.getGuilds());
   if (!guildIds) return;
 
+  readChannels(guildIds);
+  readEvents(guildIds);
+}
+
+function markDMsAsRead(): void {
+  const dmsList = getSortedPrivateChannels()
+    .map((dm) => dm.id)
+    .filter((id) => hasUnread(id));
+
+  bulkDispatch(dmsList, READ_STATES.CHANNEL);
+}
+
+function markAsRead(): void {
   try {
-    readChannels(guildIds);
-    readEvents(guildIds);
+    markGuildAsRead();
+    markDMsAsRead();
     if (cfg.get("toasts")) toast.toast("Cleared everything!", toast.Kind.SUCCESS);
   } catch (err) {
     toast.toast("Something went wrong!", toast.Kind.FAILURE);
