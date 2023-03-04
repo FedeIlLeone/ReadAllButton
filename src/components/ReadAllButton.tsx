@@ -26,7 +26,6 @@ export default ((props) => {
     <div className={classes.listItem}>
       <ListItemTooltip text="Read All" shouldShow={!useText}>
         <Clickable
-          // ! onMouseEnter and onMouseLeave are not assignable to type ClickableType
           className={`readAllButton${selected ? " selected" : ""}${useRoundButton ? " round" : ""}`}
           onClick={props.onClick}
           onMouseEnter={() => setSelected(true)}
