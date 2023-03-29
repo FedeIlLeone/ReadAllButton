@@ -37,11 +37,9 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 
   return (
     <div className="readAllButton-listContainer">
-      <div className="readAllButton-listTextContainer">
-        <Text color="header-primary" variant="heading-sm/semibold">
-          {header}
-        </Text>
-      </div>
+      <Text color="header-primary" variant="heading-sm/semibold">
+        {header}
+      </Text>
       <Checkbox
         value={value}
         onChange={(e) => onChange(e.target.checked)}
@@ -53,12 +51,13 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 }
 
 export default (): React.ReactElement => {
-  const useRoundButton = util.useSetting(cfg, "roundButton");
-  const useText = util.useSetting(cfg, "text");
-  const showToasts = util.useSetting(cfg, "toasts");
   const markChannels = util.useSetting(cfg, "markChannels");
   const markDMs = util.useSetting(cfg, "markDMs");
   const markGuildEvents = util.useSetting(cfg, "markGuildEvents");
+  const useRoundButton = util.useSetting(cfg, "roundButton");
+  const useText = util.useSetting(cfg, "text");
+  const showConfirm = util.useSetting(cfg, "askConfirm");
+  const showToasts = util.useSetting(cfg, "toasts");
 
   return (
     <>
@@ -76,6 +75,7 @@ export default (): React.ReactElement => {
         </SwitchItem>
       </FormItem>
       <FormItem title="Other">
+        <SwitchItem {...showConfirm}>Ask for confirmation before marking as read</SwitchItem>
         <SwitchItem {...showToasts}>Show a confirmation toast</SwitchItem>
       </FormItem>
     </>

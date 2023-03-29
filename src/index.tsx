@@ -13,7 +13,7 @@ import {
   lastMessageId,
 } from "./utils";
 
-const { fluxDispatcher, guilds, toast } = common;
+const { fluxDispatcher, guilds, modal, toast } = common;
 
 export const inject = new Injector();
 
@@ -73,7 +73,17 @@ function markDMsAsRead(): void {
   bulkDispatch(dmsList, READ_STATES.CHANNEL);
 }
 
-function markAsRead(): void {
+async function markAsRead(): Promise<void> {
+  if (cfg.get("askConfirm")) {
+    if (
+      !(await modal.confirm({
+        title: "Mark All As Read",
+        body: "Are you sure you want to mark everything as read?",
+      }))
+    )
+      return;
+  }
+
   try {
     markGuildAsRead();
     if (cfg.get("markDMs")) markDMsAsRead();

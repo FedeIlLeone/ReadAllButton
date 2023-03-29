@@ -10,6 +10,7 @@ import { settings, util, webpack } from "replugged";
 import { inject } from ".";
 
 const defaultSettings: Partial<Settings> = {
+  askConfirm: false,
   markChannels: true,
   markDMs: true,
   markGuildEvents: true,
