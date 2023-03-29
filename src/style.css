@@ -31,3 +31,21 @@
 .theme-light.custom-theme-background .readAllButton:not(.selected) {
   background: rgb(var(--bg-overlay-color) / var(--bg-overlay-opacity-3));
 }
+
+.readAllButton-listContainer {
+  align-items: center;
+  background-color: var(--background-secondary-alt);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 8px 8px 12px;
+}
+
+.readAllButton-listTextContainer {
+  flex: 1;
+}
+
+.readAllButton-listCheckbox {
+  flex: 0;
+}

@@ -61,8 +61,8 @@ function markGuildAsRead(): void {
   const guildIds = Object.keys(guilds.getGuilds());
   if (!guildIds) return;
 
-  readChannels(guildIds);
-  readEvents(guildIds);
+  if (cfg.get("markChannels")) readChannels(guildIds);
+  if (cfg.get("markGuildEvents")) readEvents(guildIds);
 }
 
 function markDMsAsRead(): void {
@@ -76,7 +76,7 @@ function markDMsAsRead(): void {
 function markAsRead(): void {
   try {
     markGuildAsRead();
-    markDMsAsRead();
+    if (cfg.get("markDMs")) markDMsAsRead();
     if (cfg.get("toasts")) toast.toast("Cleared everything!", toast.Kind.SUCCESS);
   } catch (err) {
     toast.toast("Something went wrong!", toast.Kind.FAILURE);

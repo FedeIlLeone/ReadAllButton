@@ -2,15 +2,73 @@ import type React from "react";
 import { components, util } from "replugged";
 import { cfg } from "..";
 
-const { FormItem, SwitchItem } = components;
+const { Checkbox, Flex, FormItem, SwitchItem, Text } = components;
+
+enum ReadType {
+  DM,
+  GUILD_CHANNEL,
+  GUILD_EVENT,
+}
+
+interface ReadListCheckboxProps {
+  onChange: (
+    newValue: boolean | (Record<string, unknown> & { value: boolean | undefined }) | undefined,
+  ) => void;
+  type: ReadType;
+  value: boolean;
+}
+
+function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
+  const { type, ...setting } = props;
+  const { onChange, value } = setting;
+  let header = "";
+
+  switch (props.type) {
+    case ReadType.DM:
+      header = "Direct Messages";
+      break;
+    case ReadType.GUILD_CHANNEL:
+      header = "Guild Channels";
+      break;
+    case ReadType.GUILD_EVENT:
+      header = "Guild Events";
+      break;
+  }
+
+  return (
+    <div className="readAllButton-listContainer">
+      <div className="readAllButton-listTextContainer">
+        <Text color="header-primary" variant="heading-sm/semibold">
+          {header}
+        </Text>
+      </div>
+      <Checkbox
+        value={value}
+        onChange={(e) => onChange(e.target.checked)}
+        type={Checkbox.Types.INVERTED}
+        className="readAllButton-listCheckbox"
+      />
+    </div>
+  );
+}
 
 export default (): React.ReactElement => {
   const useRoundButton = util.useSetting(cfg, "roundButton");
   const useText = util.useSetting(cfg, "text");
   const showToasts = util.useSetting(cfg, "toasts");
+  const markChannels = util.useSetting(cfg, "markChannels");
+  const markDMs = util.useSetting(cfg, "markDMs");
+  const markGuildEvents = util.useSetting(cfg, "markGuildEvents");
 
   return (
     <>
+      <FormItem title="Mark As Read" style={{ marginBottom: 20 }} divider>
+        <Flex direction={Flex.Direction.VERTICAL} style={{ gap: 4 }}>
+          <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
+          <ReadListCheckbox {...markDMs} type={ReadType.DM} />
+          <ReadListCheckbox {...markGuildEvents} type={ReadType.GUILD_EVENT} />
+        </Flex>
+      </FormItem>
       <FormItem title="Appearance">
         <SwitchItem {...useRoundButton}>Use a round button</SwitchItem>
         <SwitchItem {...useText} note="Disables the tooltip as well">

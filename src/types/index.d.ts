@@ -2,6 +2,9 @@ import type { Channel } from "discord-types/general";
 import type { RawModule } from "replugged/dist/types";
 
 interface Settings {
+  markChannels?: boolean;
+  markDMs?: boolean;
+  markGuildEvents?: boolean;
   roundButton?: boolean;
   text?: boolean;
   toasts?: boolean;

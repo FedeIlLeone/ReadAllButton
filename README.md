@@ -6,12 +6,6 @@ Replugged plugin that adds a button to mark as read everything.
 
 <img src="assets/preview.gif" width="400">
 
-## To-Do
-
-- Blacklist servers from getting marked as read.
-- Use context menu on home button.
-- Settings to decide what to mark as read.
-
 ## Credits
 
 - [GriefMoDz](https://github.com/griefmodz) for the button injection function.
