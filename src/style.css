@@ -45,3 +45,29 @@
 .readAllButton-listCheckbox {
   flex: 0;
 }
+
+.readAllButton-blacklistModalContent {
+  display: flex;
+  flex-direction: column;
+  overflow: unset !important;
+  padding-left: 12px;
+  padding-right: 0 !important;
+}
+
+.readAllButton-blacklistItem {
+  display: flex;
+  flex-direction: row;
+  margin-right: 8px;
+  padding: 6px 0 6px 4px;
+}
+
+.readAllButton-blacklistItemIcon {
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.readAllButton-blacklistItemText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -4,6 +4,7 @@ import type {
   Predicate,
   ReadStateStore,
   Settings,
+  SortedGuildDeprecatedStore,
 } from "@types";
 import type { ChannelStore } from "discord-types/stores";
 import { settings, util, webpack } from "replugged";
@@ -11,6 +12,7 @@ import { inject } from ".";
 
 const defaultSettings: Partial<Settings> = {
   askConfirm: false,
+  blacklist: [],
   markChannels: true,
   markDMs: true,
   markGuildEvents: true,
@@ -41,6 +43,14 @@ export const { getChannels }: GuildChannelStore = await webpack
 export const { hasUnread, lastMessageId }: ReadStateStore = await webpack
   .waitForModule(webpack.filters.byProps("lastMessageId"))
   .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["lastMessageId"])));
+
+export const { getFlattenedGuildIds }: SortedGuildDeprecatedStore = await webpack
+  .waitForModule(webpack.filters.byProps("getFlattenedGuildIds", "getSortedGuilds"))
+  .then((mod) =>
+    Object.getPrototypeOf(
+      webpack.getExportsForProps(mod, ["getFlattenedGuildIds", "getSortedGuilds"]),
+    ),
+  );
 
 // https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L6-L25
 export function findInReactTree(

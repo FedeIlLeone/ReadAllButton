@@ -45,7 +45,7 @@ export default ((props) => {
       {disableWrapper ? (
         props.children
       ) : (
-        <div className={`${classes.listItemWrapper} ${selected ? classes.selected : ""}`}>
+        <div className={`${classes.listItemWrapper}${selected ? ` ${classes.selected}` : ""}`}>
           {props.children}
         </div>
       )}

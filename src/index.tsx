@@ -58,7 +58,9 @@ function readEvents(guildIds: string[]): void {
 }
 
 function markGuildAsRead(): void {
-  const guildIds = Object.keys(guilds.getGuilds());
+  const guildIds = Object.keys(guilds.getGuilds()).filter(
+    (guildId) => !cfg.get("blacklist").includes(guildId),
+  );
   if (!guildIds) return;
 
   if (cfg.get("markChannels")) readChannels(guildIds);

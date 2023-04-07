@@ -1,8 +1,10 @@
 import type React from "react";
-import { components, util } from "replugged";
+import { common, components, util } from "replugged";
+import { BlacklistServersModal } from ".";
 import { cfg } from "..";
 
-const { Checkbox, Flex, FormItem, SwitchItem, Text } = components;
+const { modal } = common;
+const { Button, Checkbox, Flex, FormItem, SwitchItem, Text } = components;
 
 enum ReadType {
   DM,
@@ -61,6 +63,17 @@ export default (): React.ReactElement => {
 
   return (
     <>
+      <FormItem
+        title="Blacklist Servers"
+        note={`${cfg.get("blacklist").length} servers won't get marked as read.`}
+        style={{ marginBottom: 20 }}
+        divider>
+        <Button
+          onClick={() => modal.openModal((props) => <BlacklistServersModal {...props} />)}
+          size={Button.Sizes.SMALL}>
+          Edit Blacklist
+        </Button>
+      </FormItem>
       <FormItem title="Mark As Read" style={{ marginBottom: 20 }} divider>
         <Flex direction={Flex.Direction.VERTICAL} style={{ gap: 4 }}>
           <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
@@ -70,7 +83,7 @@ export default (): React.ReactElement => {
       </FormItem>
       <FormItem title="Appearance">
         <SwitchItem {...useRoundButton}>Use a round button</SwitchItem>
-        <SwitchItem {...useText} note="Disables the tooltip as well">
+        <SwitchItem {...useText} note="Disables the tooltip as well.">
           Display text instead of an icon
         </SwitchItem>
       </FormItem>

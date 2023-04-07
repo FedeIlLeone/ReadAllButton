@@ -1,8 +1,9 @@
-import type { Channel } from "discord-types/general";
+import type { Channel, Guild } from "discord-types/general";
 import type { RawModule } from "replugged/dist/types";
 
 interface Settings {
   askConfirm?: boolean;
+  blacklist?: string[];
   markChannels?: boolean;
   markDMs?: boolean;
   markGuildEvents?: boolean;
@@ -35,6 +36,29 @@ interface GuildChannelStore {
 interface ReadStateStore {
   hasUnread: (id: string) => boolean;
   lastMessageId: (id: string, event: number) => string;
+}
+
+interface Folder {
+  folderColor?: number;
+  folderId?: number;
+  folderName?: string;
+  guilds: Guild[];
+  index: number;
+}
+
+interface Snapshot {
+  data: { folders: Folder[]; sortedGuilds: Folder[] };
+  version: number;
+}
+
+interface SortedGuildDeprecatedStore {
+  getFlattenedGuildIds: () => string[];
+  getFlattenedGuilds: () => Guild[];
+  getGuildFolderById: (folderId: number) => Folder;
+  getSortedGuilds: () => Folder[];
+  guildFolders: Folder[];
+  persistKey: string;
+  takeSnapshot: () => Snapshot;
 }
 
 interface GuildClasses extends RawModule {
