@@ -73,13 +73,6 @@ export default ((props) => {
 
   const searched = search(guilds, query);
 
-  const handleSearch = React.useCallback(
-    (str: string) => {
-      setQuery(str);
-    },
-    [setQuery],
-  );
-
   const handleList = React.useCallback(
     (guildId: string) => {
       setList((arr) => {
@@ -144,8 +137,8 @@ export default ((props) => {
       <Modal.ModalContent className="readAllButton-blacklistModalContent">
         <SearchBar
           query={query}
-          onChange={handleSearch}
-          onClear={() => handleSearch("")}
+          onChange={setQuery}
+          onClear={() => setQuery("")}
           size={SearchBar.Sizes.MEDIUM}
           className="readAllButton-blacklistSearchBar"
         />
