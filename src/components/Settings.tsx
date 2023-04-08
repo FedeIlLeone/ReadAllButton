@@ -1,6 +1,6 @@
 import type React from "react";
 import { common, components, util } from "replugged";
-import { BlacklistServersModal } from ".";
+import { ServerBlacklistModal } from ".";
 import { cfg } from "..";
 
 const { modal } = common;
@@ -64,12 +64,12 @@ export default (): React.ReactElement => {
   return (
     <>
       <FormItem
-        title="Blacklist Servers"
+        title="Server Blacklist"
         note={`${cfg.get("blacklist").length} servers won't get marked as read.`}
         style={{ marginBottom: 20 }}
         divider>
         <Button
-          onClick={() => modal.openModal((props) => <BlacklistServersModal {...props} />)}
+          onClick={() => modal.openModal((props) => <ServerBlacklistModal {...props} />)}
           size={Button.Sizes.SMALL}>
           Edit Blacklist
         </Button>

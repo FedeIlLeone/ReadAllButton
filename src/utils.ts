@@ -44,7 +44,7 @@ export const { hasUnread, lastMessageId }: ReadStateStore = await webpack
   .waitForModule(webpack.filters.byProps("lastMessageId"))
   .then((mod) => Object.getPrototypeOf(webpack.getExportsForProps(mod, ["lastMessageId"])));
 
-export const { getFlattenedGuildIds }: SortedGuildDeprecatedStore = await webpack
+export const { getFlattenedGuilds }: SortedGuildDeprecatedStore = await webpack
   .waitForModule(webpack.filters.byProps("getFlattenedGuildIds", "getSortedGuilds"))
   .then((mod) =>
     Object.getPrototypeOf(

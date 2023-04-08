@@ -54,6 +54,15 @@
   padding-right: 0 !important;
 }
 
+.readAllButton-blacklistSearchBar {
+  background-color: var(--background-secondary);
+  border-color: var(--background-tertiary);
+  flex-shrink: 0;
+  margin-bottom: 16px;
+  margin-left: 4px;
+  margin-right: 16px;
+}
+
 .readAllButton-blacklistItem {
   display: flex;
   flex-direction: row;

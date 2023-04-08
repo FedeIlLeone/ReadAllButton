@@ -1,7 +1,7 @@
-import BlacklistServersModal from "./BlacklistServersModal";
 import DoubleCheckmark from "./DoubleCheckmark";
 import ReadAllButton from "./ReadAllButton";
+import ServerBlacklistModal from "./ServerBlacklistModal";
 import Settings from "./Settings";
 
 export * from "./original";
-export { BlacklistServersModal, DoubleCheckmark, ReadAllButton, Settings };
+export { DoubleCheckmark, ReadAllButton, ServerBlacklistModal, Settings };

@@ -1,4 +1,5 @@
 import type { GuildClasses, GuildsNavComponent } from "@types";
+import type React from "react";
 import { Injector, common, util, webpack } from "replugged";
 import { ReadAllButton, Settings } from "./components";
 import "./style.css";

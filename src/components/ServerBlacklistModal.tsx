@@ -1,9 +1,10 @@
+import type { Guild } from "discord-types/general";
 import { common, components } from "replugged";
-import { LazyScroller } from ".";
+import { LazyScroller, SearchBar } from ".";
 import { cfg } from "..";
-import { getFlattenedGuildIds } from "../utils";
+import { getFlattenedGuilds } from "../utils";
 
-const { guilds, React } = common;
+const { React } = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;
 
 enum ModalTransitionState {
@@ -19,12 +20,65 @@ interface ModalProps {
   onClose(): Promise<void>;
 }
 
-export type BlacklistServersModalType = React.FC<ModalProps>;
+export type ServerBlacklistModalType = React.FC<ModalProps>;
+
+function matchString(query: string, str: string): boolean {
+  query = query.toLowerCase();
+
+  const tokens = str.split("");
+  let queryPosition = 0;
+
+  tokens.forEach((char) => {
+    if (char.toLowerCase() === query[queryPosition]) {
+      queryPosition++;
+      if (queryPosition >= query.length) {
+        return false;
+      }
+    }
+  });
+
+  if (queryPosition !== query.length) return false;
+
+  return true;
+}
+
+function search(guilds: Guild[], query: string): Guild[] {
+  if (query === "") return guilds;
+
+  query = query.toLowerCase();
+
+  const matching = [];
+
+  for (let i = 0; i < guilds.length; i++) {
+    const guild = guilds[i];
+    const name = guild.name.toLowerCase();
+
+    if (name === query) {
+      return [guild];
+    }
+
+    if (matchString(query, name)) {
+      matching.push(guild);
+    }
+  }
+
+  return matching;
+}
 
 export default ((props) => {
-  const guildIds = getFlattenedGuildIds();
+  const guilds = getFlattenedGuilds();
 
+  const [query, setQuery] = React.useState("");
   const [list, setList] = React.useState(cfg.get("blacklist") || []);
+
+  const searched = search(guilds, query);
+
+  const handleSearch = React.useCallback(
+    (str: string) => {
+      setQuery(str);
+    },
+    [setQuery],
+  );
 
   const handleList = React.useCallback(
     (guildId: string) => {
@@ -44,19 +98,18 @@ export default ((props) => {
 
   const handleRender = React.useCallback(
     (index: number) => {
-      const guildId = guildIds[index];
-      const guild = guilds.getGuild(guildId);
-      const isBlacklisted = list.includes(guildId);
+      const guild = searched[index];
+      const isBlacklisted = list.includes(guild.id);
 
       return (
         <div className="readAllButton-blacklistItem">
           <Checkbox
             value={isBlacklisted}
-            onChange={() => handleList(guildId)}
+            onChange={() => handleList(guild.id)}
             type={Checkbox.Types.INVERTED}
             disabled={!guild}>
             <Flex>
-              {guild?.icon && (
+              {guild.icon && (
                 <img
                   src={guild.getIconURL(20, true)}
                   width={20}
@@ -68,14 +121,14 @@ export default ((props) => {
                 color="header-primary"
                 variant="text-md/normal"
                 className="readAllButton-blacklistItemText">
-                {guild ? guild.name : `N/A (${guildId})`}
+                {guild.name}
               </Text>
             </Flex>
           </Checkbox>
         </div>
       );
     },
-    [guildIds, handleList, list],
+    [searched, handleList, list],
   );
 
   const handleSubmit = React.useCallback(() => {
@@ -86,14 +139,21 @@ export default ((props) => {
   return (
     <Modal.ModalRoot transitionState={props.transitionState}>
       <Modal.ModalHeader direction={Flex.Direction.VERTICAL} separator={false}>
-        <Text.H1 variant="heading-xl/semibold">Blacklist Servers</Text.H1>
+        <Text.H1 variant="heading-xl/semibold">Server Blacklist</Text.H1>
       </Modal.ModalHeader>
       <Modal.ModalContent className="readAllButton-blacklistModalContent">
+        <SearchBar
+          query={query}
+          onChange={handleSearch}
+          onClear={() => handleSearch("")}
+          size={SearchBar.Sizes.MEDIUM}
+          className="readAllButton-blacklistSearchBar"
+        />
         <LazyScroller
           role="listbox"
           renderRow={handleRender}
-          rowCount={guildIds.length}
-          rowCountBySection={[guildIds.length]}
+          rowCount={searched.length}
+          rowCountBySection={[searched.length]}
           rowHeight={36}
         />
       </Modal.ModalContent>
@@ -107,4 +167,4 @@ export default ((props) => {
       </Modal.ModalFooter>
     </Modal.ModalRoot>
   );
-}) as BlacklistServersModalType;
+}) as ServerBlacklistModalType;
