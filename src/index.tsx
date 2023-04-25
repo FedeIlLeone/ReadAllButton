@@ -2,17 +2,10 @@ import type { GuildClasses, GuildsNavComponent } from "@types";
 import type React from "react";
 import { Injector, common, util, webpack } from "replugged";
 import { ReadAllButton, Settings } from "./components";
+import { ActiveThreadsStore, GuildChannelStore, ReadStateStore } from "./stores";
+import { ReadStateTypes } from "./stores/ReadStateStore";
 import "./style.css";
-import {
-  cfg,
-  findInReactTree,
-  forceUpdate,
-  getChannels,
-  getSortedPrivateChannels,
-  getThreadsForGuild,
-  hasUnread,
-  lastMessageId,
-} from "./utils";
+import { cfg, findInReactTree, forceUpdate } from "./utils";
 
 const { fluxDispatcher, guilds, modal, toast } = common;
 
@@ -20,19 +13,11 @@ export const inject = new Injector();
 
 let classes: Record<string, GuildClasses | Record<string, string>> = {};
 
-enum READ_STATES {
-  CHANNEL,
-  GUILD_EVENT,
-  GUILD_HOME,
-  GUILD_ONBOARDING_QUESTION,
-  NOTIFICATION_CENTER,
-}
-
-function bulkDispatch(list: string[], event: number): void {
+function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
   const dispatchChannels = list.map((id) => ({
     channelId: id,
-    readStateType: event,
-    messageId: lastMessageId(id, event),
+    readStateType,
+    messageId: ReadStateStore.lastMessageId(id, readStateType),
   }));
   if (!dispatchChannels.length) return;
 
@@ -41,21 +26,23 @@ function bulkDispatch(list: string[], event: number): void {
 
 function readChannels(guildIds: string[]): void {
   const textChannelsList = guildIds
-    .map((id) => getChannels(id).SELECTABLE.map(({ channel }) => channel.id))
+    .map((id) => GuildChannelStore.getChannels(id).SELECTABLE.map(({ channel }) => channel.id))
     .flat();
   const threadsList = guildIds
-    .map((id) => Object.values(getThreadsForGuild(id)))
+    .map((id) => Object.values(ActiveThreadsStore.getThreadsForGuild(id)))
     .flat()
     .map((thread) => Object.keys(thread))
     .flat();
 
-  const channelsList = [...textChannelsList, ...threadsList].filter((id) => hasUnread(id));
+  const channelsList = [...textChannelsList, ...threadsList].filter((id) =>
+    ReadStateStore.hasUnread(id),
+  );
 
-  bulkDispatch(channelsList, READ_STATES.CHANNEL);
+  bulkDispatch(channelsList, ReadStateTypes.CHANNEL);
 }
 
 function readEvents(guildIds: string[]): void {
-  bulkDispatch(guildIds, READ_STATES.GUILD_EVENT);
+  bulkDispatch(guildIds, ReadStateTypes.GUILD_EVENT);
 }
 
 function markGuildAsRead(): void {
@@ -69,11 +56,12 @@ function markGuildAsRead(): void {
 }
 
 function markDMsAsRead(): void {
-  const dmsList = getSortedPrivateChannels()
+  const dmsList = common.channels
+    .getSortedPrivateChannels()
     .map((dm) => dm.id)
-    .filter((id) => hasUnread(id));
+    .filter((id) => ReadStateStore.hasUnread(id));
 
-  bulkDispatch(dmsList, READ_STATES.CHANNEL);
+  bulkDispatch(dmsList, ReadStateTypes.CHANNEL);
 }
 
 async function markAsRead(): Promise<void> {

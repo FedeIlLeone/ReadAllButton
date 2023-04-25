@@ -2,7 +2,7 @@ import type { Guild } from "discord-types/general";
 import { common, components } from "replugged";
 import { LazyScroller, SearchBar } from ".";
 import { cfg } from "..";
-import { getFlattenedGuilds } from "../utils";
+import { SortedGuildDeprecatedStore } from "../stores";
 
 const { React } = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;
@@ -66,7 +66,7 @@ function search(guilds: Guild[], query: string): Guild[] {
 }
 
 export default ((props) => {
-  const guilds = getFlattenedGuilds();
+  const guilds = SortedGuildDeprecatedStore.getFlattenedGuilds();
 
   const [query, setQuery] = React.useState("");
   const [list, setList] = React.useState(cfg.get("blacklist") || []);
