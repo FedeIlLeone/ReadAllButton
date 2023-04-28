@@ -81,7 +81,7 @@ interface CompleteSerializedReadState {
   type: ReadStateTypes;
 }
 
-interface SerializedReadStore {
+interface SerializedReadState {
   _ackMessageId: string | null;
   _ackMessageTimestamp: number;
   _guildId: string | null;
@@ -195,14 +195,14 @@ declare class ReadState {
     resetMentionCount?: boolean,
     newMentionCount?: number,
   ) => void;
-  public serialize: (complete?: boolean) => SerializedReadStore | CompleteSerializedReadState;
+  public serialize: (complete?: boolean) => SerializedReadState | CompleteSerializedReadState;
   public shouldDeleteReadState: () => boolean;
   public syncThreadSettings: () => boolean;
 }
 
 export interface ReadStateStore {
   ackMessageId: (channelId: string, readStateType?: ReadStateTypes) => string | null;
-  getAllReadStates: (complete?: boolean) => SerializedReadStore[] | CompleteSerializedReadState[];
+  getAllReadStates: (complete?: boolean) => SerializedReadState[] | CompleteSerializedReadState[];
   getForDebugging: (channelId: string, readStateType?: ReadStateTypes) => ReadState | undefined;
   getGuildChannelUnreadState: (
     channel: Channel,
