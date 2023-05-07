@@ -101,8 +101,8 @@ interface SerializedReadState {
 declare class ReadState {
   public constructor(channelId: string, readStateType?: ReadStateTypes);
 
-  public static _readStates: Array<Record<string, ReadState>>;
-  public static _guildReadStateSentinels: Record<string, UnreadsSentinel>;
+  private static _readStates: Array<Record<string, ReadState>>;
+  private static _guildReadStateSentinels: Record<string, UnreadsSentinel>;
 
   public static clear: (channelId: string, readStateType?: ReadStateTypes) => boolean;
   public static clearAll: () => void;
@@ -121,19 +121,20 @@ declare class ReadState {
   ) => ReadStateValue;
   public static resetGuildSentinels: () => void;
 
-  public _ackMessageId: string | null;
-  public _ackMessageTimestamp: number;
-  public _guildId: string | null;
-  public _isActiveThread: boolean;
-  public _isJoinedThread: boolean;
-  public _isResourceChannel: boolean;
-  public _isThread: boolean;
-  public _lastMessageId: string | null;
-  public _lastMessageTimestamp: number;
-  public _mentionCount: number;
-  public _oldestUnreadMessageId: string | null;
-  public _persisted: boolean;
-  public _unreadCount: number;
+  private _ackMessageId: string | null;
+  private _ackMessageTimestamp: number;
+  private _guildId: string | null;
+  private _isActiveThread: boolean;
+  private _isJoinedThread: boolean;
+  private _isResourceChannel: boolean;
+  private _isThread: boolean;
+  private _lastMessageId: string | null;
+  private _lastMessageTimestamp: number;
+  private _mentionCount: number;
+  private _oldestUnreadMessageId: string | null;
+  private _persisted: boolean;
+  private _unreadCount: number;
+
   public ackMessageIdAtChannelSelect: string | null;
   public ackPinTimestamp: number;
   public channelId: string;
@@ -162,6 +163,7 @@ declare class ReadState {
   private _ack: (location: AnalyticsSectionOpts) => void;
   private _nonChannelAck: () => void;
   private _shouldAck: (force?: boolean, local?: boolean, isExplicitUserAction?: boolean) => boolean;
+
   public ack: (ackOpts: AckOpts) => boolean;
   public ackPins: (timestamp?: number | null) => boolean;
   public canBeUnread: () => boolean;
