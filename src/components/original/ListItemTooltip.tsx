@@ -2,7 +2,6 @@ import { common, components, webpack } from "replugged";
 
 const { React } = common;
 const { Tooltip } = components;
-const { filters, waitForModule } = webpack;
 
 interface ListItemTooltipProps {
   color?: string;
@@ -18,9 +17,10 @@ interface ListItemTooltipProps {
 
 export type ListItemTooltipType = React.FC<React.PropsWithChildren<ListItemTooltipProps>>;
 
-const classes = await waitForModule<
+const classes = await webpack.waitForProps<
+  string,
   Record<"listItemTooltip" | "listItemWrapper" | "selected", string>
->(filters.byProps("listItemTooltip"));
+>(["listItemTooltip"]);
 
 export default ((props) => {
   const {

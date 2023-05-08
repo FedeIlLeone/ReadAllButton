@@ -1,8 +1,6 @@
 import type React from "react";
 import { webpack } from "replugged";
 
-const { filters, waitForModule } = webpack;
-
 interface SearchBarProps {
   "aria-label"?: string;
   autoComplete?: boolean;
@@ -30,6 +28,6 @@ export type SearchBarType = React.FC<React.PropsWithChildren<SearchBarProps>> & 
   Sizes: Record<"SMALL" | "MEDIUM" | "LARGE", string>;
 };
 
-export default (await waitForModule(
-  filters.bySource(/\.autoComplete.+inputProps/),
+export default (await webpack.waitForModule(
+  webpack.filters.bySource(/\.autoComplete.+inputProps/),
 )) as SearchBarType;

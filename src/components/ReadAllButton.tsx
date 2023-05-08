@@ -4,7 +4,6 @@ import { cfg } from "..";
 
 const { React } = common;
 const { Clickable, Text } = components;
-const { filters, waitForModule } = webpack;
 
 interface ReadAllButtonProps {
   onClick?: () => void;
@@ -12,9 +11,9 @@ interface ReadAllButtonProps {
 
 export type ReadAllButtonType = React.FC<ReadAllButtonProps>;
 
-const classes = await waitForModule<Record<"listItem", string>>(
-  filters.byProps("unavailableBadge"),
-);
+const classes = await webpack.waitForProps<string, Record<"listItem", string>>([
+  "unavailableBadge",
+]);
 
 export default ((props) => {
   const [selected, setSelected] = React.useState(false);

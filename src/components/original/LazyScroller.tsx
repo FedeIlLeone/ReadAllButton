@@ -1,8 +1,6 @@
 import type React from "react";
 import { webpack } from "replugged";
 
-const { filters, waitForModule } = webpack;
-
 interface SectionData {
   sectionIndex: number;
   sectionRowIndex: number;
@@ -34,4 +32,6 @@ interface LazyScrollerProps {
 
 export type LazyScrollerType = React.FC<LazyScrollerProps>;
 
-export default (await waitForModule(filters.bySource(".stickyHeaders"))) as LazyScrollerType;
+export default (await webpack.waitForModule(
+  webpack.filters.bySource(".stickyHeaders"),
+)) as LazyScrollerType;
