@@ -1,6 +1,6 @@
-import type React from "react";
-import { components, webpack } from "replugged";
+import { common, components, webpack } from "replugged";
 
+const { React } = common;
 const { Tooltip } = components;
 const { filters, waitForModule } = webpack;
 
@@ -29,7 +29,6 @@ export default ((props) => {
     hideOnClick = true,
     selected = false,
     text = "",
-    tooltipClass = "",
   } = props;
 
   return (
@@ -41,9 +40,11 @@ export default ((props) => {
       shouldShow={props.shouldShow}
       spacing={20}
       text={disabled ? "" : text}
-      tooltipClassName={`${classes.listItemTooltip} ${tooltipClass}`}>
+      tooltipClassName={`${classes.listItemTooltip}${
+        props.tooltipClass ? `${props.tooltipClass}` : ""
+      }`}>
       {disableWrapper ? (
-        props.children
+        React.cloneElement(React.Children.only(props.children) as React.ReactElement, props)
       ) : (
         <div className={`${classes.listItemWrapper}${selected ? ` ${classes.selected}` : ""}`}>
           {props.children}
