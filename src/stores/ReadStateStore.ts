@@ -216,6 +216,7 @@ export interface ReadStateStore {
   ) => GuildChannelUnreadState;
   getGuildUnreadsSentinel: (guildId: string) => number;
   getMentionCount: (channelId: string, readStateType?: ReadStateTypes) => number;
+  getNotifCenterReadState: (channelId: string) => ReadState;
   getOldestUnreadMessageId: (channelId: string, readStateType?: ReadStateTypes) => string | null;
   getOldestUnreadTimestamp: (channelId: string, readStateType?: ReadStateTypes) => number;
   getReadStatesByChannel: () => Record<string, ReadState>;
