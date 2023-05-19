@@ -16,6 +16,11 @@ export enum ReadStateTypes {
   GUILD_ONBOARDING_QUESTION,
 }
 
+enum ReadStateFlags {
+  IS_GUILD_CHANNEL,
+  IS_THREAD,
+}
+
 type ReadStateValue = boolean | number | string | GuildChannelUnreadState | null;
 
 interface ChannelOverride {
@@ -74,8 +79,10 @@ interface CompleteSerializedReadState {
   ackPinTimestamp: number;
   channelId: string;
   estimated: boolean;
+  flags: ReadStateFlags;
   isManualAck: boolean;
   lastPinTimestamp: number;
+  lastViewed: number | undefined;
   loadedMessages: boolean;
   oldestUnreadMessageIdStale: boolean;
   type: ReadStateTypes;
@@ -94,7 +101,9 @@ interface SerializedReadState {
   _persisted: boolean;
   ackPinTimestamp: number;
   channelId: string;
+  flags: ReadStateFlags;
   lastPinTimestamp: number;
+  lastViewed: number | undefined;
   type: ReadStateTypes;
 }
 
@@ -139,8 +148,10 @@ declare class ReadState {
   public ackPinTimestamp: number;
   public channelId: string;
   public estimated: boolean;
+  public flags: ReadStateFlags;
   public isManualAck: boolean;
   public lastPinTimestamp: number;
+  public lastViewed: number | undefined;
   public loadedMessages: boolean;
   public oldestUnreadMessageIdStale: boolean;
   public outgoingAck: string | null;
@@ -197,6 +208,8 @@ declare class ReadState {
     resetMentionCount?: boolean,
     newMentionCount?: number,
   ) => void;
+  public recalculateFlags: () => ReadStateFlags;
+  public recordLastViewedTime: () => void;
   public serialize: (complete?: boolean) => SerializedReadState | CompleteSerializedReadState;
   public shouldDeleteReadState: () => boolean;
   public syncThreadSettings: () => boolean;
