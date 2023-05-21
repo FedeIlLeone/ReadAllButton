@@ -8,6 +8,7 @@ const defaultSettings: Partial<Settings> = {
   markChannels: true,
   markDMs: true,
   markGuildEvents: true,
+  markOnboardingQuestions: true,
   roundButton: false,
   text: false,
   toasts: true,

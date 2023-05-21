@@ -1,8 +1,13 @@
-import type { GuildClasses, GuildsNavComponent } from "@types";
+import type { GuildsNavComponent } from "@types";
 import type React from "react";
 import { Injector, common, util, webpack } from "replugged";
 import { ReadAllButton, Settings } from "./components";
-import { ActiveThreadsStore, GuildChannelStore, ReadStateStore } from "./stores";
+import {
+  ActiveJoinedThreadsStore,
+  GuildChannelStore,
+  GuildOnboardingPromptsStore,
+  ReadStateStore,
+} from "./stores";
 import { ReadStateTypes } from "./stores/ReadStateStore";
 import "./style.css";
 import { cfg, findInReactTree, forceUpdate } from "./utils";
@@ -11,13 +16,17 @@ const { fluxDispatcher, guilds, modal, toast } = common;
 
 export const inject = new Injector();
 
-let classes: Record<string, GuildClasses | Record<string, string>> = {};
+const classes = await webpack.waitForProps<string, Record<"guilds", string>>(["guilds", "sidebar"]);
 
 function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
+  const isOnboardingQuestion = readStateType === ReadStateTypes.GUILD_ONBOARDING_QUESTION;
+
   const dispatchChannels = list.map((id) => ({
     channelId: id,
     readStateType,
-    messageId: ReadStateStore.lastMessageId(id, readStateType),
+    messageId: isOnboardingQuestion
+      ? GuildOnboardingPromptsStore.ackIdForGuild(id)
+      : ReadStateStore.lastMessageId(id, readStateType),
   }));
   if (!dispatchChannels.length) return;
 
@@ -25,18 +34,17 @@ function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
 }
 
 function readChannels(guildIds: string[]): void {
-  const textChannelsList = guildIds
-    .map((id) => GuildChannelStore.getChannels(id).SELECTABLE.map(({ channel }) => channel.id))
+  const selectableChannelsList = guildIds
+    .map((id) => GuildChannelStore.getSelectableChannelIds(id))
     .flat();
+  const vocalChannelsList = guildIds.map((id) => GuildChannelStore.getVocalChannelIds(id)).flat();
   const threadsList = guildIds
-    .map((id) => Object.values(ActiveThreadsStore.getThreadsForGuild(id)))
+    .map((id) => Object.values(ActiveJoinedThreadsStore.getActiveJoinedThreadsForGuild(id)))
     .flat()
     .map((thread) => Object.keys(thread))
     .flat();
 
-  const channelsList = [...textChannelsList, ...threadsList].filter((id) =>
-    ReadStateStore.hasUnread(id),
-  );
+  const channelsList = [...selectableChannelsList, ...vocalChannelsList, ...threadsList];
 
   bulkDispatch(channelsList, ReadStateTypes.CHANNEL);
 }
@@ -45,14 +53,21 @@ function readEvents(guildIds: string[]): void {
   bulkDispatch(guildIds, ReadStateTypes.GUILD_EVENT);
 }
 
+function readOnboardingQuestions(guildIds: string[]): void {
+  bulkDispatch(guildIds, ReadStateTypes.GUILD_ONBOARDING_QUESTION);
+}
+
 function markGuildAsRead(): void {
-  const guildIds = Object.keys(guilds.getGuilds()).filter(
-    (guildId) => !cfg.get("blacklist").includes(guildId),
-  );
+  const guildIds = guilds
+    // @ts-expect-error Fixed with Replugged v4.3.0
+    .getGuildIds()
+    // @ts-expect-error Fixed with Replugged v4.3.0
+    .filter((guildId) => !cfg.get("blacklist").includes(guildId));
   if (!guildIds) return;
 
   if (cfg.get("markChannels")) readChannels(guildIds);
   if (cfg.get("markGuildEvents")) readEvents(guildIds);
+  if (cfg.get("markOnboardingQuestions")) readOnboardingQuestions(guildIds);
 }
 
 function markDMsAsRead(): void {
@@ -85,46 +100,46 @@ async function markAsRead(): Promise<void> {
   }
 }
 
-export async function patchGuildsNav(): Promise<void> {
+async function patchGuildsNav(): Promise<void> {
   const GuildsNav = await webpack.waitForModule<GuildsNavComponent>(
     webpack.filters.bySource("guildsnav"),
   );
 
   inject.after(GuildsNav, "type", ([props], res) => {
-    const GuildsNavBar = findInReactTree(res, (node) =>
+    const GuildsBar = findInReactTree(res, (node) =>
       node?.props?.className?.includes(props.className),
     );
-    if (!GuildsNavBar) return res;
+    if (!GuildsBar) return res;
 
-    patchGuildsNavBar(GuildsNavBar);
+    patchGuildsBar(GuildsBar);
 
     return res;
   });
 
   util
-    .waitFor(`.${classes.guildClasses.guilds}`)
+    .waitFor(`.${classes.guilds}`)
     .then(forceUpdate)
     .catch(() => {});
 }
 
-function patchGuildsNavBar(component: JSX.Element): void {
+function patchGuildsBar(component: JSX.Element): void {
   inject.after(component, "type", (_, res) => {
-    const NavScroll = findInReactTree(res, (node) => node?.props?.onScroll);
-    if (!NavScroll?.props?.children) return res;
+    const advancedScrollerNone = findInReactTree(res, (node) => node?.props?.onScroll);
+    if (!advancedScrollerNone?.props?.children) return res;
 
     let index = 2;
 
     const getIndexByKeyword = (keyword: string): number =>
-      NavScroll.props.children.findIndex((child: React.ReactElement) =>
+      advancedScrollerNone.props.children.findIndex((child: React.ReactElement) =>
         child?.type?.toString()?.includes(keyword),
       );
 
-    const StudentHubsIndex = getIndexByKeyword("isOnHubVerificationRoute");
+    const studentHubsIndex = getIndexByKeyword("isOnHubVerificationRoute");
     if (index !== -1) {
-      index = StudentHubsIndex - 1;
+      index = studentHubsIndex - 1;
     }
 
-    NavScroll.props.children.splice(index, 0, <ReadAllButton onClick={markAsRead} />);
+    advancedScrollerNone.props.children.splice(index, 0, <ReadAllButton onClick={markAsRead} />);
 
     return res;
   });
@@ -133,13 +148,11 @@ function patchGuildsNavBar(component: JSX.Element): void {
 export { Settings, cfg };
 
 export async function start(): Promise<void> {
-  classes.guildClasses = await webpack.waitForProps<string, GuildClasses>(["guilds", "sidebar"]);
-
   await patchGuildsNav();
 }
 
 export function stop(): void {
   inject.uninjectAll();
 
-  forceUpdate(document.querySelector(`.${classes.guildClasses.guilds}`));
+  forceUpdate(document.querySelector(`.${classes.guilds}`));
 }

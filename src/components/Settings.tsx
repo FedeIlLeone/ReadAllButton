@@ -10,6 +10,7 @@ enum ReadType {
   DM,
   GUILD_CHANNEL,
   GUILD_EVENT,
+  GUILD_ONBOARDING_QUESTIONS,
 }
 
 interface ReadListCheckboxProps {
@@ -35,6 +36,9 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
     case ReadType.GUILD_EVENT:
       header = "Guild Events";
       break;
+    case ReadType.GUILD_ONBOARDING_QUESTIONS:
+      header = "Guild Onboarding Questions";
+      break;
   }
 
   return (
@@ -44,7 +48,7 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
       </Text>
       <Checkbox
         value={value}
-        onChange={(e) => onChange(e.target.checked)}
+        onChange={(event) => onChange(event.target.checked)}
         type={Checkbox.Types.INVERTED}
         className="readAllButton-listCheckbox"
       />
@@ -56,6 +60,7 @@ export default (): React.ReactElement => {
   const markChannels = util.useSetting(cfg, "markChannels");
   const markDMs = util.useSetting(cfg, "markDMs");
   const markGuildEvents = util.useSetting(cfg, "markGuildEvents");
+  const markOnboardingQuestions = util.useSetting(cfg, "markOnboardingQuestions");
   const useRoundButton = util.useSetting(cfg, "roundButton");
   const useText = util.useSetting(cfg, "text");
   const showConfirm = util.useSetting(cfg, "askConfirm");
@@ -79,6 +84,10 @@ export default (): React.ReactElement => {
           <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
           <ReadListCheckbox {...markDMs} type={ReadType.DM} />
           <ReadListCheckbox {...markGuildEvents} type={ReadType.GUILD_EVENT} />
+          <ReadListCheckbox
+            {...markOnboardingQuestions}
+            type={ReadType.GUILD_ONBOARDING_QUESTIONS}
+          />
         </Flex>
       </FormItem>
       <FormItem title="Appearance">

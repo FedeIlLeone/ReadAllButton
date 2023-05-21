@@ -17,8 +17,8 @@ export enum ReadStateTypes {
 }
 
 enum ReadStateFlags {
-  IS_GUILD_CHANNEL,
-  IS_THREAD,
+  IS_GUILD_CHANNEL = 1,
+  IS_THREAD = 2,
 }
 
 type ReadStateValue = boolean | number | string | GuildChannelUnreadState | null;

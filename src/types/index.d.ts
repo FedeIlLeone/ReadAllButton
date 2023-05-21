@@ -6,6 +6,7 @@ interface Settings {
   markChannels?: boolean;
   markDMs?: boolean;
   markGuildEvents?: boolean;
+  markOnboardingQuestions?: boolean;
   roundButton?: boolean;
   text?: boolean;
   toasts?: boolean;
@@ -14,22 +15,10 @@ interface Settings {
 type Comparator<T> = (a: T, b: T) => boolean;
 type Predicate<Arg> = (arg: Arg) => boolean;
 
-interface GuildClasses extends RawModule {
-  activityPanel: string;
-  base: string;
-  container: string;
-  content: string;
-  downloadProgressCircle: string;
-  fullWidth: string;
-  guilds: string;
-  hasNotice: string;
-  hidden: string;
-  panels: string;
-  sidebar: string;
-}
-
 interface GuildsNavProps {
   className: string;
+  disableAppDownload?: boolean;
+  isOverlay?: boolean;
   themeOverride: string;
 }
 
