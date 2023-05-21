@@ -10,7 +10,7 @@ enum ReadType {
   DM,
   GUILD_CHANNEL,
   GUILD_EVENT,
-  GUILD_ONBOARDING_QUESTIONS,
+  GUILD_ONBOARDING_QUESTION,
 }
 
 interface ReadListCheckboxProps {
@@ -36,7 +36,7 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
     case ReadType.GUILD_EVENT:
       header = "Guild Events";
       break;
-    case ReadType.GUILD_ONBOARDING_QUESTIONS:
+    case ReadType.GUILD_ONBOARDING_QUESTION:
       header = "Guild Onboarding Questions";
       break;
   }
@@ -86,7 +86,7 @@ export default (): React.ReactElement => {
           <ReadListCheckbox {...markGuildEvents} type={ReadType.GUILD_EVENT} />
           <ReadListCheckbox
             {...markOnboardingQuestions}
-            type={ReadType.GUILD_ONBOARDING_QUESTIONS}
+            type={ReadType.GUILD_ONBOARDING_QUESTION}
           />
         </Flex>
       </FormItem>
