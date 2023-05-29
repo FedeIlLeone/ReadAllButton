@@ -163,6 +163,7 @@ declare class ReadState {
   public get guildId(): string | null;
   public get lastMessageId(): string | null;
   public set lastMessageId(lastMessageId: string | null);
+  public get lastMessageTimestamp(): number;
   public get mentionCount(): number;
   public set mentionCount(count: number);
   public get oldestUnreadMessageId(): string | null;
@@ -246,6 +247,7 @@ export interface ReadStateStore {
   isForumPostUnread: (channelId: string, readStateType?: ReadStateTypes) => boolean;
   isNewForumThread: (threadId: string, channelId: string, guild: Guild) => boolean;
   lastMessageId: (channelId: string, readStateType?: ReadStateTypes) => string | null;
+  lastMessageTimestamp: (channelId: string, readStateType?: ReadStateTypes) => number;
   lastPinTimestamp: (channelId: string) => number | null;
 }
 

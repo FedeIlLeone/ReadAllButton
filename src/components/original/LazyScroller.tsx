@@ -30,7 +30,9 @@ interface LazyScrollerProps {
   stickyHeaders?: boolean;
 }
 
-export type LazyScrollerType = React.FC<LazyScrollerProps>;
+export type LazyScrollerType = React.ForwardRefExoticComponent<LazyScrollerProps> & {
+  render: React.ForwardRefRenderFunction<unknown, LazyScrollerProps>;
+};
 
 export default (await webpack.waitForModule(
   webpack.filters.bySource(".stickyHeaders"),
