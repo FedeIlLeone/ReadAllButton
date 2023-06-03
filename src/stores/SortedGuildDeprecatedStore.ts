@@ -26,5 +26,5 @@ export interface SortedGuildDeprecatedStore {
 }
 
 export default (await webpack
-  .waitForProps(["getFlattenedGuildIds", "getSortedGuilds"])
+  .waitForProps("getFlattenedGuildIds", "getSortedGuilds")
   .then(Object.getPrototypeOf)) as SortedGuildDeprecatedStore;

@@ -34,6 +34,6 @@ export type LazyScrollerType = React.ForwardRefExoticComponent<LazyScrollerProps
   render: React.ForwardRefRenderFunction<unknown, LazyScrollerProps>;
 };
 
-export default (await webpack.waitForModule(
+export default await webpack.waitForModule<LazyScrollerType>(
   webpack.filters.bySource(".stickyHeaders"),
-)) as LazyScrollerType;
+);

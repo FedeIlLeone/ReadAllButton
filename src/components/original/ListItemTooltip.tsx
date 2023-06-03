@@ -18,9 +18,8 @@ interface ListItemTooltipProps {
 export type ListItemTooltipType = React.FC<React.PropsWithChildren<ListItemTooltipProps>>;
 
 const classes = await webpack.waitForProps<
-  string,
   Record<"listItemTooltip" | "listItemWrapper" | "selected", string>
->(["listItemTooltip"]);
+>("listItemTooltip");
 
 export default ((props) => {
   const {

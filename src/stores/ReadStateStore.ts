@@ -252,5 +252,5 @@ export interface ReadStateStore {
 }
 
 export default (await webpack
-  .waitForProps(["lastMessageId"])
+  .waitForProps("lastMessageId")
   .then(Object.getPrototypeOf)) as ReadStateStore;

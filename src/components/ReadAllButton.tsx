@@ -11,9 +11,9 @@ interface ReadAllButtonProps {
 
 export type ReadAllButtonType = React.FC<ReadAllButtonProps>;
 
-const classes = await webpack.waitForProps<string, Record<"listItem", string>>([
+const classes = await webpack.waitForProps<Record<"listItem" | "unavailableBadge", string>>(
   "unavailableBadge",
-]);
+);
 
 export default ((props) => {
   const [selected, setSelected] = React.useState(false);

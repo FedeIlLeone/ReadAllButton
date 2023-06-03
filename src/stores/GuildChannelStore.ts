@@ -32,5 +32,5 @@ export interface GuildChannelStore {
 }
 
 export default (await webpack
-  .waitForProps(["getChannels"])
+  .waitForProps("getChannels")
   .then(Object.getPrototypeOf)) as GuildChannelStore;

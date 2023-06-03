@@ -47,5 +47,5 @@ export interface GuildOnboardingPromptsStore {
 }
 
 export default (await webpack
-  .waitForProps(["getOnboardingResponsesForPrompt"])
+  .waitForProps("getOnboardingResponsesForPrompt")
   .then(Object.getPrototypeOf)) as GuildOnboardingPromptsStore;

@@ -48,5 +48,5 @@ export interface ActiveJoinedThreadsStore {
 }
 
 export default (await webpack
-  .waitForProps(["getActiveJoinedThreadsForGuild"])
+  .waitForProps("getActiveJoinedThreadsForGuild")
   .then(Object.getPrototypeOf)) as ActiveJoinedThreadsStore;

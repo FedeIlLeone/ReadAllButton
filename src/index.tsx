@@ -16,7 +16,10 @@ const { fluxDispatcher, guilds, modal, toast } = common;
 
 export const inject = new Injector();
 
-const classes = await webpack.waitForProps<string, Record<"guilds", string>>(["guilds", "sidebar"]);
+const classes = await webpack.waitForProps<Record<"guilds" | "sidebar", string>>(
+  "guilds",
+  "sidebar",
+);
 
 function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
   const isOnboardingQuestion = readStateType === ReadStateTypes.GUILD_ONBOARDING_QUESTION;
@@ -59,9 +62,7 @@ function readOnboardingQuestions(guildIds: string[]): void {
 
 function markGuildAsRead(): void {
   const guildIds = guilds
-    // @ts-expect-error Fixed with Replugged v4.3.0
     .getGuildIds()
-    // @ts-expect-error Fixed with Replugged v4.3.0
     .filter((guildId) => !cfg.get("blacklist").includes(guildId));
   if (!guildIds) return;
 
