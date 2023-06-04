@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { common, components, webpack } from "replugged";
 
 const { React } = common;
@@ -39,13 +40,11 @@ export default ((props) => {
       shouldShow={props.shouldShow}
       spacing={20}
       text={disabled ? "" : text}
-      tooltipClassName={`${classes.listItemTooltip}${
-        props.tooltipClass ? `${props.tooltipClass}` : ""
-      }`}>
+      tooltipClassName={classNames(classes.listItemTooltip, props.tooltipClass)}>
       {disableWrapper ? (
         React.cloneElement(React.Children.only(props.children) as React.ReactElement, props)
       ) : (
-        <div className={`${classes.listItemWrapper}${selected ? ` ${classes.selected}` : ""}`}>
+        <div className={classNames(classes.listItemWrapper, { [classes.selected]: selected })}>
           {props.children}
         </div>
       )}

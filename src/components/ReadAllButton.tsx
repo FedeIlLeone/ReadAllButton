@@ -1,8 +1,9 @@
+import classNames from "classnames";
 import { common, components, webpack } from "replugged";
-import { DoubleCheckmark, ListItemTooltip } from ".";
+import { DoubleCheckmark, ListItemTooltip, ReadAllButtonContextMenu } from ".";
 import { cfg } from "..";
 
-const { React } = common;
+const { contextMenu, React } = common;
 const { Clickable, Text } = components;
 
 interface ReadAllButtonProps {
@@ -25,10 +26,11 @@ export default ((props) => {
     <div className={classes.listItem}>
       <ListItemTooltip text="Read All" shouldShow={!useText}>
         <Clickable
-          className={`readAllButton${selected ? " selected" : ""}${useRoundButton ? " round" : ""}`}
+          className={classNames("readAllButton", { selected }, { round: useRoundButton })}
           onClick={props.onClick}
           onMouseEnter={() => setSelected(true)}
-          onMouseLeave={() => setSelected(false)}>
+          onMouseLeave={() => setSelected(false)}
+          onContextMenu={(event) => contextMenu.open(event, () => <ReadAllButtonContextMenu />)}>
           {useText ? (
             <Text.Eyebrow style={{ fontWeight: 500, textAlign: "center" }}>Read All</Text.Eyebrow>
           ) : (

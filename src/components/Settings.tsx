@@ -2,6 +2,7 @@ import type React from "react";
 import { common, components, util } from "replugged";
 import { ServerBlacklistModal } from ".";
 import { cfg } from "..";
+import { ReadTypeStrings } from "../constants";
 
 const { modal } = common;
 const { Button, Checkbox, Flex, FormItem, SwitchItem, Text } = components;
@@ -28,16 +29,16 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 
   switch (props.type) {
     case ReadType.DM:
-      header = "Direct Messages";
+      header = ReadTypeStrings.DM;
       break;
     case ReadType.GUILD_CHANNEL:
-      header = "Guild Channels";
+      header = ReadTypeStrings.GUILD_CHANNEL;
       break;
     case ReadType.GUILD_EVENT:
-      header = "Guild Events";
+      header = ReadTypeStrings.GUILD_EVENT;
       break;
     case ReadType.GUILD_ONBOARDING_QUESTION:
-      header = "Guild Onboarding Questions";
+      header = ReadTypeStrings.GUILD_ONBOARDING_QUESTION;
       break;
   }
 

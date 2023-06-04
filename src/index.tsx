@@ -36,7 +36,7 @@ function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
   fluxDispatcher.dispatch({ type: "BULK_ACK", channels: dispatchChannels, context: "APP" });
 }
 
-function readChannels(guildIds: string[]): void {
+export function readChannels(guildIds: string[]): void {
   const selectableChannelsList = guildIds
     .map((id) => GuildChannelStore.getSelectableChannelIds(id))
     .flat();
@@ -52,11 +52,11 @@ function readChannels(guildIds: string[]): void {
   bulkDispatch(channelsList, ReadStateTypes.CHANNEL);
 }
 
-function readEvents(guildIds: string[]): void {
+export function readEvents(guildIds: string[]): void {
   bulkDispatch(guildIds, ReadStateTypes.GUILD_EVENT);
 }
 
-function readOnboardingQuestions(guildIds: string[]): void {
+export function readOnboardingQuestions(guildIds: string[]): void {
   bulkDispatch(guildIds, ReadStateTypes.GUILD_ONBOARDING_QUESTION);
 }
 
@@ -71,13 +71,19 @@ function markGuildAsRead(): void {
   if (cfg.get("markOnboardingQuestions")) readOnboardingQuestions(guildIds);
 }
 
-function markDMsAsRead(): void {
+export function markDMsAsRead(): void {
   const dmsList = common.channels
     .getSortedPrivateChannels()
     .map((dm) => dm.id)
     .filter((id) => ReadStateStore.hasUnread(id));
 
   bulkDispatch(dmsList, ReadStateTypes.CHANNEL);
+}
+
+export function showClearedToast(readTypeString?: string): void {
+  const toastContent = readTypeString ? `Cleared ${readTypeString}` : "Cleared everything!";
+
+  if (cfg.get("toasts")) toast.toast(toastContent, toast.Kind.SUCCESS);
 }
 
 async function markAsRead(): Promise<void> {
@@ -94,7 +100,7 @@ async function markAsRead(): Promise<void> {
   try {
     markGuildAsRead();
     if (cfg.get("markDMs")) markDMsAsRead();
-    if (cfg.get("toasts")) toast.toast("Cleared everything!", toast.Kind.SUCCESS);
+    showClearedToast();
   } catch (err) {
     toast.toast("Something went wrong!", toast.Kind.FAILURE);
     console.error(err);
