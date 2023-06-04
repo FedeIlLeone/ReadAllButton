@@ -81,7 +81,7 @@ export function markDMsAsRead(): void {
 }
 
 export function showClearedToast(readTypeString?: string): void {
-  const toastContent = readTypeString ? `Cleared ${readTypeString}` : "Cleared everything!";
+  const toastContent = readTypeString ? `Cleared ${readTypeString}!` : "Cleared everything!";
 
   if (cfg.get("toasts")) toast.toast(toastContent, toast.Kind.SUCCESS);
 }
