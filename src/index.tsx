@@ -134,19 +134,18 @@ function patchGuildsBar(component: JSX.Element): void {
     const advancedScrollerNone = findInReactTree(res, (node) => node?.props?.onScroll);
     if (!advancedScrollerNone?.props?.children) return res;
 
-    let index = 2;
-
     const getIndexByKeyword = (keyword: string): number =>
       advancedScrollerNone.props.children.findIndex((child: React.ReactElement) =>
         child?.type?.toString()?.includes(keyword),
       );
 
-    const studentHubsIndex = getIndexByKeyword("isOnHubVerificationRoute");
-    if (index !== -1) {
-      index = studentHubsIndex - 1;
-    }
+    const favoritesButtonIndex = getIndexByKeyword("favorites");
 
-    advancedScrollerNone.props.children.splice(index, 0, <ReadAllButton onClick={markAsRead} />);
+    advancedScrollerNone.props.children.splice(
+      favoritesButtonIndex,
+      0,
+      <ReadAllButton onClick={markAsRead} />,
+    );
 
     return res;
   });

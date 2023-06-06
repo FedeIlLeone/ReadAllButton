@@ -18,13 +18,11 @@ export interface SortedGuildDeprecatedStore {
   guildFolders: Folder[];
   persistKey: string;
 
-  getFlattenedGuildIds: () => string[];
   getFlattenedGuilds: () => Guild[];
-  getGuildFolderById: (folderId: number) => Folder | null;
   getSortedGuilds: () => Folder[];
   takeSnapshot: () => Snapshot;
 }
 
 export default (await webpack
-  .waitForProps("getFlattenedGuildIds", "getSortedGuilds")
+  .waitForProps("getFlattenedGuilds", "getSortedGuilds")
   .then(Object.getPrototypeOf)) as SortedGuildDeprecatedStore;
