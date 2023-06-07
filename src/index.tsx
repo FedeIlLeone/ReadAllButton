@@ -139,10 +139,10 @@ function patchGuildsBar(component: JSX.Element): void {
         child?.type?.toString()?.includes(keyword),
       );
 
-    const favoritesButtonIndex = getIndexByKeyword("favorites");
+    const homeButtonIndex = getIndexByKeyword("showProgressBadge");
 
     advancedScrollerNone.props.children.splice(
-      favoritesButtonIndex,
+      homeButtonIndex + 1,
       0,
       <ReadAllButton onClick={markAsRead} />,
     );
