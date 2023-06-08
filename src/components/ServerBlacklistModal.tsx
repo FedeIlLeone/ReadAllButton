@@ -2,9 +2,9 @@ import type { Guild } from "discord-types/general";
 import { common, components } from "replugged";
 import { LazyScroller, SearchBar } from ".";
 import { cfg } from "..";
-import { SortedGuildDeprecatedStore } from "../stores";
+import { SortedGuildStore } from "../stores";
 
-const { React } = common;
+const { guilds, React } = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;
 
 enum ModalTransitionState {
@@ -66,12 +66,24 @@ function search(guilds: Guild[], query: string): Guild[] {
 }
 
 export default ((props) => {
-  const guilds = SortedGuildDeprecatedStore.getFlattenedGuilds();
+  const sortedGuilds = React.useMemo(() => {
+    const guildIds = SortedGuildStore.getFlattenedGuildIds();
+
+    const guildsList: Guild[] = [];
+
+    guildIds.forEach((guildId) => {
+      const guild = guilds.getGuild(guildId);
+
+      if (guild) guildsList.push(guild);
+    });
+
+    return guildsList;
+  }, []);
 
   const [query, setQuery] = React.useState("");
   const [list, setList] = React.useState(cfg.get("blacklist") || []);
 
-  const searched = search(guilds, query);
+  const searched = search(sortedGuilds, query);
 
   const handleList = React.useCallback(
     (guildId: string) => {
