@@ -110,8 +110,9 @@ interface SerializedReadState {
 declare class ReadState {
   public constructor(channelId: string, readStateType?: ReadStateTypes);
 
-  private static _readStates: Array<Record<string, ReadState>>;
   private static _guildReadStateSentinels: Record<string, UnreadsSentinel>;
+  private static _mentionChannels: Set<string>;
+  private static _readStates: Array<Record<string, ReadState>>;
 
   public static clear: (channelId: string, readStateType?: ReadStateTypes) => boolean;
   public static clearAll: () => void;
@@ -122,6 +123,7 @@ declare class ReadState {
     channelId: string,
     readStateType?: ReadStateTypes,
   ) => ReadState | undefined;
+  public static getMentionChannelIds: () => string[];
   public static getValue: (
     channelId: string,
     readStateType?: ReadStateTypes,
@@ -229,6 +231,7 @@ export interface ReadStateStore {
     channelUnread?: boolean,
   ) => GuildChannelUnreadState;
   getGuildUnreadsSentinel: (guildId: string) => number;
+  getMentionChannelIds: () => string[];
   getMentionCount: (channelId: string, readStateType?: ReadStateTypes) => number;
   getNotifCenterReadState: (channelId: string) => ReadState;
   getOldestUnreadMessageId: (channelId: string, readStateType?: ReadStateTypes) => string | null;
