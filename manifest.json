@@ -13,6 +13,8 @@
     "id": "dev.fedeilleone.ReadAllButton"
   },
   "license": "MIT",
+  "image": "https://raw.githubusercontent.com/FedeIlLeone/ReadAllButton/main/assets/preview.gif",
+  "source": "https://github.com/FedeIlLeone/ReadAllButton",
   "type": "replugged-plugin",
   "renderer": "src/index.tsx"
 }
