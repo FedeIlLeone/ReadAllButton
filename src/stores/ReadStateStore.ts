@@ -51,17 +51,18 @@ interface UnreadsSentinel {
   unreadsSentinel: number;
 }
 
-interface AnalyticsSectionOpts {
+interface AnalyticsSectionOptions {
   section: string;
 }
 
-interface AckOpts {
+interface AckOptions {
   force?: boolean;
   immediate?: boolean;
   isExplicitUserAction?: boolean;
   local?: boolean;
-  location?: AnalyticsSectionOpts;
+  location?: AnalyticsSectionOptions;
   messageId: string;
+  trackAnalytics?: boolean;
 }
 
 interface CompleteSerializedReadState {
@@ -174,11 +175,11 @@ declare class ReadState {
   public get unreadCount(): number;
   public set unreadCount(count: number);
 
-  private _ack: (location: AnalyticsSectionOpts) => void;
+  private _ack: (location: AnalyticsSectionOptions, track: boolean) => void;
   private _nonChannelAck: () => void;
   private _shouldAck: (force?: boolean, local?: boolean, isExplicitUserAction?: boolean) => boolean;
 
-  public ack: (ackOpts: AckOpts) => boolean;
+  public ack: (ackOptions: AckOptions) => boolean;
   public ackPins: (timestamp?: number | null) => boolean;
   public canBeUnread: () => boolean;
   public canHaveMentions: () => boolean;
