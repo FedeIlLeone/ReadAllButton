@@ -34,7 +34,7 @@ export default ((props) => {
           {useText ? (
             <Text.Eyebrow style={{ fontWeight: 500, textAlign: "center" }}>Read All</Text.Eyebrow>
           ) : (
-            <DoubleCheckmark />
+            <DoubleCheckmark width={24} height={24} />
           )}
         </Clickable>
       </ListItemTooltip>
