@@ -53,7 +53,7 @@ function search(guilds: Guild[], query: string): Guild[] {
     const guild = guilds[i];
     const name = guild.name.toLowerCase();
 
-    if (name === query) {
+    if (name === query || guild.id === query) {
       return [guild];
     }
 
