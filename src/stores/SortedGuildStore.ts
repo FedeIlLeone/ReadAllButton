@@ -1,3 +1,4 @@
+import type { SnapshotStore } from "@types";
 import { webpack } from "replugged";
 
 export enum GuildsNodeType {
@@ -78,8 +79,8 @@ interface Snapshot {
   version: number;
 }
 
-export interface SortedGuildStore {
-  persistKey: string;
+export interface SortedGuildStore extends SnapshotStore<Snapshot> {
+  LATEST_SNAPSHOT_VERSION: number;
 
   getCompatibleGuildFolders: () => MappedFolder[] | MappedGuild[];
   getFlattenedGuildIds: () => string[];
@@ -89,6 +90,4 @@ export interface SortedGuildStore {
   takeSnapshot: () => Snapshot;
 }
 
-export default (await webpack
-  .waitForProps("getFlattenedGuildIds")
-  .then(Object.getPrototypeOf)) as SortedGuildStore;
+export default webpack.getByStoreName<SortedGuildStore>("SortedGuildStore")!;

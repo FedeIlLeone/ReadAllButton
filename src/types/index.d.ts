@@ -1,3 +1,4 @@
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 import type { RawModule } from "replugged/dist/types";
 
 interface Settings {
@@ -26,4 +27,18 @@ interface GuildsNavComponent extends RawModule {
   $$typeof: symbol;
   compare: Comparator<unknown>;
   type: (props: GuildsNavProps) => React.ReactElement;
+}
+
+declare class SnapshotStore<Snapshot> extends Store {
+  public static allStores: SnapshotStore[];
+
+  public static clearAll: () => void;
+
+  public get persistKey(): string;
+
+  public clear: () => void;
+  public getClass: () => typeof SnapshotStore;
+  public readSnapshot: (version: number) => Snapshot | null;
+  public registerActionHandlers: (actions: Parameters<Store["registerActionHandlers"]>[0]) => void;
+  public save: () => void;
 }

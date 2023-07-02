@@ -1,5 +1,6 @@
 import { Channel, Guild } from "discord-types/general";
 import { webpack } from "replugged";
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 
 enum UserNotificationSettings {
   ALL_MESSAGES,
@@ -219,7 +220,7 @@ declare class ReadState {
   public syncThreadSettings: () => boolean;
 }
 
-export interface ReadStateStore {
+export interface ReadStateStore extends Store {
   ackMessageId: (channelId: string, readStateType?: ReadStateTypes) => string | null;
   getAllReadStates: (complete?: boolean) => SerializedReadState[] | CompleteSerializedReadState[];
   getForDebugging: (channelId: string, readStateType?: ReadStateTypes) => ReadState | undefined;
@@ -255,6 +256,4 @@ export interface ReadStateStore {
   lastPinTimestamp: (channelId: string) => number | null;
 }
 
-export default (await webpack
-  .waitForProps("lastMessageId")
-  .then(Object.getPrototypeOf)) as ReadStateStore;
+export default webpack.getByStoreName<ReadStateStore>("ReadStateStore")!;

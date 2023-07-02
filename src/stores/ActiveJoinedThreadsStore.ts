@@ -1,12 +1,13 @@
 import { Channel } from "discord-types/general";
 import { webpack } from "replugged";
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 
 interface ActiveJoinedThread {
   channel: Channel;
   joinTimestamp: number;
 }
 
-export interface ActiveJoinedThreadsStore {
+export interface ActiveJoinedThreadsStore extends Store {
   computeAllActiveJoinedThreads: (guildId: string) => Channel[];
   getActiveJoinedRelevantThreadsForGuild: (
     guildId: string,
@@ -47,6 +48,4 @@ export interface ActiveJoinedThreadsStore {
   hasActiveJoinedUnreadThreads: (guildId: string, channelId: string) => boolean;
 }
 
-export default (await webpack
-  .waitForProps("getActiveJoinedThreadsForGuild")
-  .then(Object.getPrototypeOf)) as ActiveJoinedThreadsStore;
+export default webpack.getByStoreName<ActiveJoinedThreadsStore>("ActiveJoinedThreadsStore")!;

@@ -1,5 +1,6 @@
 import type { Channel } from "discord-types/general";
 import { webpack } from "replugged";
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 
 interface ChannelListItem {
   channel: Channel;
@@ -14,7 +15,7 @@ interface ChannelList {
   VOCAL: ChannelListItem[];
 }
 
-export interface GuildChannelStore {
+export interface GuildChannelStore extends Store {
   getAllGuilds: () => Record<string, ChannelList>;
   getChannels: (guildId: string) => ChannelList;
   getDefaultChannel: (guildId: string) => Channel | null;
@@ -31,6 +32,4 @@ export interface GuildChannelStore {
   hasSelectableChannel: (guildId: string, channelId: string) => boolean;
 }
 
-export default (await webpack
-  .waitForProps("getChannels")
-  .then(Object.getPrototypeOf)) as GuildChannelStore;
+export default webpack.getByStoreName<GuildChannelStore>("GuildChannelStore")!;

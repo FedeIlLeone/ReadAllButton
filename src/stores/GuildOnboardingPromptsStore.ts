@@ -1,4 +1,5 @@
 import { webpack } from "replugged";
+import type { Store } from "replugged/dist/renderer/modules/common/flux";
 
 enum OnboardingPromptTypes {
   MULTIPLE_CHOICE,
@@ -28,7 +29,7 @@ interface OnboardingPromptOption {
   title: string;
 }
 
-export interface GuildOnboardingPromptsStore {
+export interface GuildOnboardingPromptsStore extends Store {
   ackIdForGuild: (guildId: string) => string;
   getDefaultChannelIds: (guildId: string) => string[];
   getEnabled: (guildId: string) => boolean;
@@ -46,6 +47,4 @@ export interface GuildOnboardingPromptsStore {
   shouldFetchPrompts: (guildId: string, time?: number) => boolean;
 }
 
-export default (await webpack
-  .waitForProps("getOnboardingResponsesForPrompt")
-  .then(Object.getPrototypeOf)) as GuildOnboardingPromptsStore;
+export default webpack.getByStoreName<GuildOnboardingPromptsStore>("GuildOnboardingPromptsStore")!;
