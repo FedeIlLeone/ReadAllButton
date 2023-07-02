@@ -80,8 +80,6 @@ interface Snapshot {
 }
 
 export interface SortedGuildStore extends SnapshotStore<Snapshot> {
-  LATEST_SNAPSHOT_VERSION: number;
-
   getCompatibleGuildFolders: () => MappedFolder[] | MappedGuild[];
   getFlattenedGuildIds: () => string[];
   getGuildFolderById: (folderId: number) => MappedFolder;
