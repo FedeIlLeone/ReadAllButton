@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { common, components, webpack } from "replugged";
-
+import { cfg } from "../utils/PluginSettingsUtils";
 import DoubleCheckmark from "./DoubleCheckmark";
 import ListItemTooltip from "./ListItemTooltip";
 import ReadAllButtonContextMenu from "./ReadAllButtonContextMenu";
 
-import { cfg } from "../utils/PluginSettingsUtils";
+import "./ReadAllButton.css";
 
 const { contextMenu, React } = common;
 const { Clickable, Text } = components;
@@ -36,7 +36,7 @@ export default ((props) => {
           onMouseLeave={() => setSelected(false)}
           onContextMenu={(event) => contextMenu.open(event, () => <ReadAllButtonContextMenu />)}>
           {useText ? (
-            <Text.Eyebrow style={{ fontWeight: 500, textAlign: "center" }}>Read All</Text.Eyebrow>
+            <Text.Eyebrow className="readAllButton-buttonText">Read All</Text.Eyebrow>
           ) : (
             <DoubleCheckmark width={24} height={24} />
           )}

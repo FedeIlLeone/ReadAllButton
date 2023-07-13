@@ -1,0 +1,38 @@
+.readAllButton {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 48px;
+  height: 36px;
+  transition: color 0.15s ease-out, background-color 0.15s ease-out, height 0.15s ease-out,
+    border-radius 0.15s ease-out;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+}
+
+.readAllButton.selected {
+  color: var(--white-500);
+  background-color: var(--brand-experiment);
+}
+
+.readAllButton.round {
+  height: 48px;
+  border-radius: 50%;
+}
+
+.theme-dark.custom-theme-background .readAllButton:not(.selected) {
+  background: rgb(var(--bg-overlay-color-inverse) / var(--bg-overlay-opacity-6));
+}
+
+.theme-light.custom-theme-background .readAllButton:not(.selected) {
+  background: rgb(var(--bg-overlay-color) / var(--bg-overlay-opacity-3));
+}
+
+.readAllButton-buttonText {
+  font-weight: 500;
+  text-align: center;
+}

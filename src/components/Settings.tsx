@@ -1,11 +1,10 @@
 import type React from "react";
 import { common, components, util } from "replugged";
-
 import ServerBlacklistModal from "./ServerBlacklistModal";
-
 import { ReadTypeStrings } from "../constants";
-
 import { cfg } from "../utils/PluginSettingsUtils";
+
+import "./Settings.css";
 
 const { modal } = common;
 const { Button, Checkbox, Flex, FormItem, SwitchItem, Text } = components;

@@ -1,0 +1,34 @@
+.readAllButton-blacklistModalContent {
+  display: flex;
+  flex-direction: column;
+  overflow: unset !important;
+  padding-left: 12px;
+  padding-right: 0 !important;
+}
+
+.readAllButton-blacklistSearchBar {
+  background-color: var(--background-secondary);
+  border-color: var(--background-tertiary);
+  flex-shrink: 0;
+  margin-bottom: 16px;
+  margin-left: 4px;
+  margin-right: 16px;
+}
+
+.readAllButton-blacklistItem {
+  display: flex;
+  flex-direction: row;
+  margin-right: 8px;
+  padding: 6px 0 6px 4px;
+}
+
+.readAllButton-blacklistItemIcon {
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.readAllButton-blacklistItemText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

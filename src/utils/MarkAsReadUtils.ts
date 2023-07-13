@@ -1,11 +1,9 @@
 import { common } from "replugged";
-
-import { cfg } from "./PluginSettingsUtils";
-
 import ActiveJoinedThreadsStore from "../stores/ActiveJoinedThreadsStore";
 import GuildChannelStore from "../stores/GuildChannelStore";
 import GuildOnboardingPromptsStore from "../stores/GuildOnboardingPromptsStore";
 import ReadStateStore, { ReadStateTypes } from "../stores/ReadStateStore";
+import { cfg } from "./PluginSettingsUtils";
 
 const { fluxDispatcher: Dispatcher, guilds } = common;
 

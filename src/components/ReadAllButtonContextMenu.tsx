@@ -1,9 +1,7 @@
 import type React from "react";
 import { common, components } from "replugged";
-
 import { showClearedToast } from "..";
 import { ReadTypeStrings } from "../constants";
-
 import {
   markDMsAsRead,
   readChannels,
