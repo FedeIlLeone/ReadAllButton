@@ -1,18 +1,17 @@
 import type { GuildsNavComponent } from "@types";
 import type React from "react";
 import { Injector, common, util, webpack } from "replugged";
-import { ReadAllButton, Settings } from "./components";
-import {
-  ActiveJoinedThreadsStore,
-  GuildChannelStore,
-  GuildOnboardingPromptsStore,
-  ReadStateStore,
-} from "./stores";
-import { ReadStateTypes } from "./stores/ReadStateStore";
-import "./style.css";
-import { cfg, findInReactTree, forceUpdate } from "./utils";
 
-const { fluxDispatcher, guilds, modal, toast } = common;
+import ReadAllButton from "./components/ReadAllButton";
+import Settings from "./components/Settings";
+
+import { markDMsAsRead, markGuildAsRead } from "./utils/MarkAsReadUtils";
+import { cfg } from "./utils/PluginSettingsUtils";
+import { findInReactTree, forceUpdate } from "./utils/ReactUtils";
+
+import "./style.css";
+
+const { modal, toast } = common;
 
 export const inject = new Injector();
 
@@ -20,65 +19,6 @@ const classes = await webpack.waitForProps<Record<"guilds" | "sidebar", string>>
   "guilds",
   "sidebar",
 );
-
-function bulkDispatch(list: string[], readStateType: ReadStateTypes): void {
-  const isOnboardingQuestion = readStateType === ReadStateTypes.GUILD_ONBOARDING_QUESTION;
-
-  const dispatchChannels = list.map((id) => ({
-    channelId: id,
-    readStateType,
-    messageId: isOnboardingQuestion
-      ? GuildOnboardingPromptsStore.ackIdForGuild(id)
-      : ReadStateStore.lastMessageId(id, readStateType),
-  }));
-  if (!dispatchChannels.length) return;
-
-  fluxDispatcher.dispatch({ type: "BULK_ACK", channels: dispatchChannels, context: "APP" });
-}
-
-export function readChannels(guildIds: string[]): void {
-  const selectableChannelsList = guildIds
-    .map((id) => GuildChannelStore.getSelectableChannelIds(id))
-    .flat();
-  const vocalChannelsList = guildIds.map((id) => GuildChannelStore.getVocalChannelIds(id)).flat();
-  const threadsList = guildIds
-    .map((id) => Object.values(ActiveJoinedThreadsStore.getActiveJoinedThreadsForGuild(id)))
-    .flat()
-    .map((thread) => Object.keys(thread))
-    .flat();
-
-  const channelsList = [...selectableChannelsList, ...vocalChannelsList, ...threadsList];
-
-  bulkDispatch(channelsList, ReadStateTypes.CHANNEL);
-}
-
-export function readEvents(guildIds: string[]): void {
-  bulkDispatch(guildIds, ReadStateTypes.GUILD_EVENT);
-}
-
-export function readOnboardingQuestions(guildIds: string[]): void {
-  bulkDispatch(guildIds, ReadStateTypes.GUILD_ONBOARDING_QUESTION);
-}
-
-function markGuildAsRead(): void {
-  const guildIds = guilds
-    .getGuildIds()
-    .filter((guildId) => !cfg.get("blacklist").includes(guildId));
-  if (!guildIds) return;
-
-  if (cfg.get("markChannels")) readChannels(guildIds);
-  if (cfg.get("markGuildEvents")) readEvents(guildIds);
-  if (cfg.get("markOnboardingQuestions")) readOnboardingQuestions(guildIds);
-}
-
-export function markDMsAsRead(): void {
-  const dmsList = common.channels
-    .getSortedPrivateChannels()
-    .map((dm) => dm.id)
-    .filter((id) => ReadStateStore.hasUnread(id));
-
-  bulkDispatch(dmsList, ReadStateTypes.CHANNEL);
-}
 
 export function showClearedToast(readTypeString?: string): void {
   const toastContent = readTypeString ? `Cleared ${readTypeString}!` : "Cleared everything!";

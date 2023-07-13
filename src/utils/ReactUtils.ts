@@ -1,25 +1,11 @@
-import type { Predicate, Settings } from "@types";
-import { settings, util } from "replugged";
-import { inject } from ".";
+import { util } from "replugged";
+import { inject } from "..";
 
-const defaultSettings: Partial<Settings> = {
-  askConfirm: false,
-  blacklist: [],
-  markChannels: true,
-  markDMs: true,
-  markGuildEvents: true,
-  markOnboardingQuestions: true,
-  roundButton: false,
-  text: false,
-  toasts: true,
-};
+type Predicate<Arg> = (arg: Arg) => boolean;
 
-export const cfg = await settings.init<Settings, keyof typeof defaultSettings>(
-  "dev.fedeilleone.ReadAllButton",
-  defaultSettings,
-);
-
-// https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L6-L25
+/**
+ * @see {@link https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L6-L25}
+ */
 export function findInReactTree(
   node: React.ReactElement | React.ReactElement[],
   predicate: Predicate<React.ReactElement>,
@@ -41,7 +27,9 @@ export function findInReactTree(
   return null;
 }
 
-// https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L27-L40
+/**
+ * @see {@link https://github.com/GriefMoDz/statistic-counter/blob/main/src/lib/util.ts#L27-L40}
+ */
 export function forceUpdate(element: Element | null): void {
   if (!element) return;
 

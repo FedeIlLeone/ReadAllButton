@@ -1,8 +1,12 @@
 import type { Guild } from "discord-types/general";
 import { common, components } from "replugged";
-import { LazyScroller, SearchBar } from ".";
-import { cfg } from "..";
-import { SortedGuildStore } from "../stores";
+
+import LazyScroller from "./LazyScroller";
+import SearchBar from "./SearchBar";
+
+import SortedGuildStore from "../stores/SortedGuildStore";
+
+import { cfg } from "src/utils/PluginSettingsUtils";
 
 const { guilds, React } = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;

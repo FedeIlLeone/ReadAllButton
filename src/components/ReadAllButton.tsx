@@ -1,7 +1,11 @@
 import classNames from "classnames";
 import { common, components, webpack } from "replugged";
-import { DoubleCheckmark, ListItemTooltip, ReadAllButtonContextMenu } from ".";
-import { cfg } from "..";
+
+import DoubleCheckmark from "./DoubleCheckmark";
+import ListItemTooltip from "./ListItemTooltip";
+import ReadAllButtonContextMenu from "./ReadAllButtonContextMenu";
+
+import { cfg } from "../utils/PluginSettingsUtils";
 
 const { contextMenu, React } = common;
 const { Clickable, Text } = components;

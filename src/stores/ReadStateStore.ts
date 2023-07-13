@@ -62,7 +62,7 @@ interface AckOptions {
   isExplicitUserAction?: boolean;
   local?: boolean;
   location?: AnalyticsSectionOptions;
-  messageId: string;
+  messageId: string | null;
   trackAnalytics?: boolean;
 }
 
