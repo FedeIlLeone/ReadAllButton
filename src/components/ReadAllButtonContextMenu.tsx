@@ -3,22 +3,20 @@ import { common, components } from "replugged";
 import { showClearedToast } from "..";
 import { ReadTypeStrings } from "../constants";
 import {
+  getFilteredGuildIds,
   markDMsAsRead,
   readChannels,
   readEvents,
   readOnboardingQuestions,
 } from "../utils/MarkAsReadUtils";
-import { cfg } from "../utils/PluginSettingsUtils";
 
-const { contextMenu, guilds } = common;
+const { contextMenu } = common;
 const { ContextMenu: Menu } = components;
 
 export type ReadAllButtonContextMenuType = React.FC;
 
 export default (() => {
-  const guildIds = guilds
-    .getGuildIds()
-    .filter((guildId) => !cfg.get("blacklist").includes(guildId));
+  const guildIds = getFilteredGuildIds();
 
   return (
     <Menu.ContextMenu navId="readallbutton-context" onClose={contextMenu.close}>

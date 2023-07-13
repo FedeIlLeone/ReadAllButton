@@ -9,6 +9,8 @@ import { cfg } from "./PluginSettingsUtils";
 
 const { fluxDispatcher: Dispatcher, guilds } = common;
 
+// Utilities
+
 /**
  * Given a list of ids and the read state type to which they belong, dispatches a BULK_ACK action.
  */
@@ -25,6 +27,23 @@ function bulkAckDispatch(list: string[], readStateType: ReadStateTypes): void {
   if (!dispatchChannels.length) return;
 
   Dispatcher.dispatch({ type: "BULK_ACK", channels: dispatchChannels, context: "APP" });
+}
+
+/**
+ * Gets an array of guild ids, filtered by the plugin settings (blacklist and markMuted).
+ */
+export function getFilteredGuildIds(): string[] {
+  const guildIds = guilds.getGuildIds().filter((guildId) => {
+    const blacklist = cfg.get("blacklist");
+    const markMuted = cfg.get("markMuted");
+
+    if (blacklist.includes(guildId)) return false;
+    // GuildReadStateStore.hasUnread returns false if the guild is muted
+    if (!markMuted) return GuildReadStateStore.hasUnread(guildId);
+
+    return true;
+  });
+  return guildIds;
 }
 
 // Read Functions
@@ -69,16 +88,7 @@ export function readOnboardingQuestions(guildIds: string[]): void {
  * Marks all guilds as read, depending on the plugin settings.
  */
 export function markGuildAsRead(): void {
-  const guildIds = guilds.getGuildIds().filter((guildId) => {
-    const blacklist = cfg.get("blacklist");
-    const markMuted = cfg.get("markMuted");
-
-    if (blacklist.includes(guildId)) return false;
-    // GuildReadStateStore.hasUnread returns false if the guild is muted
-    if (!markMuted) return GuildReadStateStore.hasUnread(guildId);
-
-    return true;
-  });
+  const guildIds = getFilteredGuildIds();
   if (!guildIds || guildIds.length === 0) return;
 
   if (cfg.get("markChannels")) readChannels(guildIds);
