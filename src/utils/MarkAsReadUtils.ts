@@ -1,8 +1,10 @@
 import { common } from "replugged";
+import { ReadStateTypes } from "../constants";
 import ActiveJoinedThreadsStore from "../stores/ActiveJoinedThreadsStore";
 import GuildChannelStore from "../stores/GuildChannelStore";
 import GuildOnboardingPromptsStore from "../stores/GuildOnboardingPromptsStore";
-import ReadStateStore, { ReadStateTypes } from "../stores/ReadStateStore";
+import GuildReadStateStore from "../stores/GuildReadStateStore";
+import ReadStateStore from "../stores/ReadStateStore";
 import { cfg } from "./PluginSettingsUtils";
 
 const { fluxDispatcher: Dispatcher, guilds } = common;
@@ -67,10 +69,17 @@ export function readOnboardingQuestions(guildIds: string[]): void {
  * Marks all guilds as read, depending on the plugin settings.
  */
 export function markGuildAsRead(): void {
-  const guildIds = guilds
-    .getGuildIds()
-    .filter((guildId) => !cfg.get("blacklist").includes(guildId));
-  if (!guildIds) return;
+  const guildIds = guilds.getGuildIds().filter((guildId) => {
+    const blacklist = cfg.get("blacklist");
+    const markMuted = cfg.get("markMuted");
+
+    if (blacklist.includes(guildId)) return false;
+    // GuildReadStateStore.hasUnread returns false if the guild is muted
+    if (!markMuted) return GuildReadStateStore.hasUnread(guildId);
+
+    return true;
+  });
+  if (!guildIds || guildIds.length === 0) return;
 
   if (cfg.get("markChannels")) readChannels(guildIds);
   if (cfg.get("markGuildEvents")) readEvents(guildIds);

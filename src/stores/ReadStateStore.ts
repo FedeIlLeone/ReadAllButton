@@ -1,20 +1,13 @@
 import { Channel, Guild } from "discord-types/general";
 import { webpack } from "replugged";
 import type { Store } from "replugged/dist/renderer/modules/common/flux";
+import { ReadStateTypes } from "../constants";
 
 enum UserNotificationSettings {
   ALL_MESSAGES,
   ONLY_MENTIONS,
   NO_MESSAGES,
   NULL,
-}
-
-export enum ReadStateTypes {
-  CHANNEL,
-  GUILD_EVENT,
-  NOTIFICATION_CENTER,
-  GUILD_HOME,
-  GUILD_ONBOARDING_QUESTION,
 }
 
 enum ReadStateFlags {

@@ -6,6 +6,7 @@ interface Settings {
   markChannels?: boolean;
   markDMs?: boolean;
   markGuildEvents?: boolean;
+  markMuted?: boolean;
   markOnboardingQuestions?: boolean;
   roundButton?: boolean;
   text?: boolean;
@@ -18,6 +19,7 @@ const defaultSettings = {
   markChannels: true,
   markDMs: true,
   markGuildEvents: true,
+  markMuted: true,
   markOnboardingQuestions: true,
   roundButton: false,
   text: false,

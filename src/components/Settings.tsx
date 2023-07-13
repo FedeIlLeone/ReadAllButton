@@ -14,12 +14,11 @@ enum ReadType {
   GUILD_CHANNEL,
   GUILD_EVENT,
   GUILD_ONBOARDING_QUESTION,
+  MUTED_GUILD,
 }
 
 interface ReadListCheckboxProps {
-  onChange: (
-    newValue: boolean | (Record<string, unknown> & { value: boolean | undefined }) | undefined,
-  ) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type: ReadType;
   value: boolean;
 }
@@ -42,6 +41,9 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
     case ReadType.GUILD_ONBOARDING_QUESTION:
       header = ReadTypeStrings.GUILD_ONBOARDING_QUESTION;
       break;
+    case ReadType.MUTED_GUILD:
+      header = ReadTypeStrings.MUTED_GUILD;
+      break;
   }
 
   return (
@@ -51,7 +53,7 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
       </Text>
       <Checkbox
         value={value}
-        onChange={(event) => onChange(event.target.checked)}
+        onChange={onChange}
         type={Checkbox.Types.INVERTED}
         className="readAllButton-listCheckbox"
       />
@@ -60,6 +62,7 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 }
 
 export default (): React.ReactElement => {
+  const markMuted = util.useSetting(cfg, "markMuted");
   const markChannels = util.useSetting(cfg, "markChannels");
   const markDMs = util.useSetting(cfg, "markDMs");
   const markGuildEvents = util.useSetting(cfg, "markGuildEvents");
@@ -73,6 +76,7 @@ export default (): React.ReactElement => {
     <>
       <FormItem
         title="Server Blacklist"
+        // TODO: blacklist length doesn't update
         note={`${cfg.get("blacklist").length} servers won't get marked as read.`}
         style={{ marginBottom: 20 }}
         divider>
@@ -84,6 +88,7 @@ export default (): React.ReactElement => {
       </FormItem>
       <FormItem title="Mark As Read" style={{ marginBottom: 20 }} divider>
         <Flex direction={Flex.Direction.VERTICAL} style={{ gap: 4 }}>
+          <ReadListCheckbox {...markMuted} type={ReadType.MUTED_GUILD} />
           <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
           <ReadListCheckbox {...markDMs} type={ReadType.DM} />
           <ReadListCheckbox {...markGuildEvents} type={ReadType.GUILD_EVENT} />
