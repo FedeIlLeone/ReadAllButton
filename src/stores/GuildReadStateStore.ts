@@ -1,5 +1,5 @@
-import type { SnapshotStore } from "@types";
 import { webpack } from "replugged";
+import type { SnapshotStore } from "replugged/dist/renderer/modules/common/flux";
 
 interface GuildReadState {
   mentionCount: number;

@@ -3,7 +3,7 @@ import { webpack } from "replugged";
 import type { Store } from "replugged/dist/renderer/modules/common/flux";
 import { ReadStateTypes } from "../constants";
 
-enum UserNotificationSettings {
+export enum UserNotificationSettings {
   ALL_MESSAGES,
   ONLY_MENTIONS,
   NO_MESSAGES,
@@ -83,25 +83,18 @@ interface CompleteSerializedReadState {
   type: ReadStateTypes;
 }
 
-interface SerializedReadState {
-  _ackMessageId: string | null;
-  _ackMessageTimestamp: number;
-  _guildId: string | null;
-  _isActiveThread?: boolean;
-  _isJoinedThread?: boolean;
-  _isThread?: boolean;
-  _lastMessageId: string | null;
-  _lastMessageTimestamp: number;
-  _mentionCount: number;
-  _persisted: boolean;
-  ackPinTimestamp: number;
-  channelId: string;
-  flags: ReadStateFlags;
-  lastPinTimestamp: number;
-  lastViewed: number | undefined;
-  type: ReadStateTypes;
-}
-
+type SerializedReadState = Omit<
+  CompleteSerializedReadState,
+  | "_isActiveThread"
+  | "_isJoinedThread"
+  | "_isThread"
+  | "_oldestUnreadMessageId"
+  | "estimated"
+  | "isManualAck"
+  | "loadedMessages"
+  | "oldestUnreadMessageIdStale"
+> &
+  Partial<Pick<CompleteSerializedReadState, "_isActiveThread" | "_isJoinedThread" | "_isThread">>;
 declare class ReadState {
   public constructor(channelId: string, readStateType?: ReadStateTypes);
 
@@ -152,7 +145,7 @@ declare class ReadState {
   public loadedMessages: boolean;
   public oldestUnreadMessageIdStale: boolean;
   public outgoingAck: string | null;
-  public outgoingAckTimer: ReturnType<typeof setTimeout> | null;
+  public outgoingAckTimer: NodeJS.Timeout | null;
   public type: ReadStateTypes;
 
   public get ackMessageId(): string | null;
