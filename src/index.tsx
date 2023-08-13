@@ -1,11 +1,11 @@
+import ReadAllButton from "@components/ReadAllButton";
+import Settings from "@components/Settings";
 import type { GuildsNavComponent } from "@types";
+import { markDMsAsRead, markGuildAsRead } from "@utils/MarkAsReadUtils";
+import { cfg } from "@utils/PluginSettingsUtils";
+import { findInReactTree, forceUpdate } from "@utils/ReactUtils";
 import type React from "react";
 import { Injector, common, util, webpack } from "replugged";
-import ReadAllButton from "./components/ReadAllButton";
-import Settings from "./components/Settings";
-import { markDMsAsRead, markGuildAsRead } from "./utils/MarkAsReadUtils";
-import { cfg } from "./utils/PluginSettingsUtils";
-import { findInReactTree, forceUpdate } from "./utils/ReactUtils";
 
 const { modal, toast } = common;
 
@@ -49,8 +49,9 @@ async function patchGuildsNav(): Promise<void> {
   );
 
   inject.after(GuildsNav, "type", ([props], res) => {
-    const GuildsBar = findInReactTree(res, (node) =>
-      node?.props?.className?.includes(props.className),
+    const GuildsBar = findInReactTree(
+      res,
+      (node) => node?.props?.className?.includes(props.className),
     );
     if (!GuildsBar) return res;
 
@@ -71,8 +72,8 @@ function patchGuildsBar(component: JSX.Element): void {
     if (!advancedScrollerNone?.props?.children) return res;
 
     const getIndexByKeyword = (keyword: string): number =>
-      advancedScrollerNone.props.children.findIndex((child: React.ReactElement) =>
-        child?.type?.toString()?.includes(keyword),
+      advancedScrollerNone.props.children.findIndex(
+        (child: React.ReactElement) => child?.type?.toString()?.includes(keyword),
       );
 
     const homeButtonIndex = getIndexByKeyword("showProgressBadge");

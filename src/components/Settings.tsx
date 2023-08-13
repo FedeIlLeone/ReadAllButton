@@ -1,12 +1,15 @@
+import ServerBlacklistModal from "@components/ServerBlacklistModal";
+import { cfg } from "@utils/PluginSettingsUtils";
 import type React from "react";
 import { common, components, util } from "replugged";
-import ServerBlacklistModal from "./ServerBlacklistModal";
 import { ReadTypeStrings } from "../constants";
-import { cfg } from "../utils/PluginSettingsUtils";
 
 import "./Settings.css";
 
-const { modal } = common;
+const {
+  i18n: { Messages },
+  modal,
+} = common;
 const { Button, Checkbox, Flex, FormItem, SwitchItem, Text } = components;
 
 enum ReadType {
@@ -86,7 +89,7 @@ export default (): React.ReactElement => {
           Edit Blacklist
         </Button>
       </FormItem>
-      <FormItem title="Mark As Read" style={{ marginBottom: 20 }} divider>
+      <FormItem title={Messages.MARK_AS_READ} style={{ marginBottom: 20 }} divider>
         <Flex direction={Flex.Direction.VERTICAL} style={{ gap: 4 }}>
           <ReadListCheckbox {...markMuted} type={ReadType.MUTED_GUILD} />
           <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
@@ -98,13 +101,13 @@ export default (): React.ReactElement => {
           />
         </Flex>
       </FormItem>
-      <FormItem title="Appearance">
+      <FormItem title={Messages.APPEARANCE}>
         <SwitchItem {...useRoundButton}>Use a round button</SwitchItem>
         <SwitchItem {...useText} note="Disables the tooltip as well.">
           Display text instead of an icon
         </SwitchItem>
       </FormItem>
-      <FormItem title="Other">
+      <FormItem title={Messages.OTHER}>
         <SwitchItem {...showConfirm}>Ask for confirmation before marking as read</SwitchItem>
         <SwitchItem {...showToasts}>Show a confirmation toast</SwitchItem>
       </FormItem>

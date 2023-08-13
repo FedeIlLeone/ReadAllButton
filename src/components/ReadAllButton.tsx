@@ -1,9 +1,9 @@
+import DoubleCheckmark from "@components/DoubleCheckmark";
+import ListItemTooltip from "@components/ListItemTooltip";
+import ReadAllButtonContextMenu from "@components/ReadAllButtonContextMenu";
+import { cfg } from "@utils/PluginSettingsUtils";
 import classNames from "classnames";
 import { common, components, webpack } from "replugged";
-import { cfg } from "../utils/PluginSettingsUtils";
-import DoubleCheckmark from "./DoubleCheckmark";
-import ListItemTooltip from "./ListItemTooltip";
-import ReadAllButtonContextMenu from "./ReadAllButtonContextMenu";
 
 import "./ReadAllButton.css";
 

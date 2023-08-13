@@ -1,14 +1,14 @@
-import type React from "react";
-import { common, components } from "replugged";
-import { showClearedToast } from "..";
-import { ReadTypeStrings } from "../constants";
 import {
   getFilteredGuildIds,
   markDMsAsRead,
   readChannels,
   readEvents,
   readOnboardingQuestions,
-} from "../utils/MarkAsReadUtils";
+} from "@utils/MarkAsReadUtils";
+import type React from "react";
+import { common, components } from "replugged";
+import { showClearedToast } from "..";
+import { ReadTypeStrings } from "../constants";
 
 const { contextMenu } = common;
 const { ContextMenu: Menu } = components;

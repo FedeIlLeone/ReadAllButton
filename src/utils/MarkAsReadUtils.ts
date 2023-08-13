@@ -1,11 +1,11 @@
+import ActiveJoinedThreadsStore from "@stores/ActiveJoinedThreadsStore";
+import GuildChannelStore from "@stores/GuildChannelStore";
+import GuildOnboardingPromptsStore from "@stores/GuildOnboardingPromptsStore";
+import GuildReadStateStore from "@stores/GuildReadStateStore";
+import ReadStateStore from "@stores/ReadStateStore";
+import { cfg } from "@utils/PluginSettingsUtils";
 import { common } from "replugged";
 import { ReadStateTypes } from "../constants";
-import ActiveJoinedThreadsStore from "../stores/ActiveJoinedThreadsStore";
-import GuildChannelStore from "../stores/GuildChannelStore";
-import GuildOnboardingPromptsStore from "../stores/GuildOnboardingPromptsStore";
-import GuildReadStateStore from "../stores/GuildReadStateStore";
-import ReadStateStore from "../stores/ReadStateStore";
-import { cfg } from "./PluginSettingsUtils";
 
 const { fluxDispatcher: Dispatcher, guilds } = common;
 

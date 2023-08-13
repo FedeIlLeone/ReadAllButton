@@ -1,13 +1,17 @@
+import LazyScroller from "@components/LazyScroller";
+import SearchBar from "@components/SearchBar";
+import SortedGuildStore from "@stores/SortedGuildStore";
+import { cfg } from "@utils/PluginSettingsUtils";
 import type { Guild } from "discord-types/general";
 import { common, components } from "replugged";
-import SortedGuildStore from "../stores/SortedGuildStore";
-import { cfg } from "../utils/PluginSettingsUtils";
-import LazyScroller from "./LazyScroller";
-import SearchBar from "./SearchBar";
 
 import "./ServerBlacklistModal.css";
 
-const { guilds, React } = common;
+const {
+  guilds,
+  i18n: { Messages },
+  React,
+} = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;
 
 enum ModalTransitionState {
@@ -167,10 +171,10 @@ export default ((props) => {
       </Modal.ModalContent>
       <Modal.ModalFooter>
         <Button onClick={handleSubmit} type="submit">
-          Done
+          {Messages.DONE}
         </Button>
         <Button onClick={props.onClose} look={Button.Looks.LINK} color={Button.Colors.PRIMARY}>
-          Cancel
+          {Messages.CLOSE}
         </Button>
       </Modal.ModalFooter>
     </Modal.ModalRoot>
