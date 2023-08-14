@@ -10,7 +10,7 @@ const {
   i18n: { Messages },
   modal,
 } = common;
-const { Button, Checkbox, Flex, FormItem, SwitchItem, Text } = components;
+const { Button, Checkbox, ErrorBoundary, Flex, FormItem, SwitchItem, Text } = components;
 
 enum ReadType {
   DM,
@@ -84,7 +84,13 @@ export default (): React.ReactElement => {
         style={{ marginBottom: 20 }}
         divider>
         <Button
-          onClick={() => modal.openModal((props) => <ServerBlacklistModal {...props} />)}
+          onClick={() =>
+            modal.openModal((props) => (
+              <ErrorBoundary>
+                <ServerBlacklistModal {...props} />
+              </ErrorBoundary>
+            ))
+          }
           size={Button.Sizes.SMALL}>
           Edit Blacklist
         </Button>
