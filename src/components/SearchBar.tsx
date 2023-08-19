@@ -29,6 +29,6 @@ export type SearchBarType = React.FC<React.PropsWithChildren<SearchBarProps>> & 
   Sizes: Record<"SMALL" | "MEDIUM" | "LARGE", string>;
 };
 
-export default await webpack
-  .waitForModule<SearchBarType>(webpack.filters.bySource(/\.autoComplete.+inputProps/))
-  .then((mod) => Object.values(mod).find((x) => x?.defaultProps && "isLoading" in x.defaultProps));
+export default await webpack.waitForModule<SearchBarType>(
+  webpack.filters.bySource(/\.autoComplete.+inputProps/),
+);
