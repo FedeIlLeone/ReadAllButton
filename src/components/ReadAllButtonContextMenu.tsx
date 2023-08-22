@@ -8,9 +8,11 @@ import {
 import type React from "react";
 import { common, components } from "replugged";
 import { showClearedToast } from "..";
-import { ReadTypeStrings } from "../constants";
 
-const { contextMenu } = common;
+const {
+  contextMenu,
+  i18n: { Messages },
+} = common;
 const { ContextMenu: Menu } = components;
 
 export default (): React.ReactElement => {
@@ -20,34 +22,34 @@ export default (): React.ReactElement => {
     <Menu.ContextMenu navId="readallbutton-context" onClose={contextMenu.close}>
       <Menu.MenuItem
         id="direct-messages"
-        label={ReadTypeStrings.DM}
+        label={Messages.READALLBUTTON_READ_TYPE_DM}
         action={() => {
           markDMsAsRead();
-          showClearedToast(ReadTypeStrings.DM);
+          showClearedToast(Messages.READALLBUTTON_READ_TYPE_DM);
         }}
       />
       <Menu.MenuItem
         id="guild-channels"
-        label={ReadTypeStrings.GUILD_CHANNEL}
+        label={Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL}
         action={() => {
           readChannels(guildIds);
-          showClearedToast(ReadTypeStrings.GUILD_CHANNEL);
+          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL);
         }}
       />
       <Menu.MenuItem
         id="guild-events"
-        label={ReadTypeStrings.GUILD_EVENT}
+        label={Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT}
         action={() => {
           readEvents(guildIds);
-          showClearedToast(ReadTypeStrings.GUILD_EVENT);
+          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT);
         }}
       />
       <Menu.MenuItem
         id="guild-onboarding-questions"
-        label={ReadTypeStrings.GUILD_ONBOARDING_QUESTION}
+        label={Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION}
         action={() => {
           readOnboardingQuestions(guildIds);
-          showClearedToast(ReadTypeStrings.GUILD_ONBOARDING_QUESTION);
+          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION);
         }}
       />
     </Menu.ContextMenu>

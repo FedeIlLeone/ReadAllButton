@@ -24,7 +24,7 @@ enum ModalTransitionState {
 
 interface ModalProps {
   transitionState: ModalTransitionState;
-  onClose(): Promise<void>;
+  onClose: () => Promise<void>;
 }
 
 function matchString(query: string, str: string): boolean {
@@ -71,6 +71,8 @@ function search(guilds: Guild[], query: string): Guild[] {
 }
 
 export default (props: ModalProps): React.ReactElement => {
+  const { onClose } = props;
+
   const sortedGuilds = React.useMemo(() => {
     const guildIds = SortedGuildStore.getFlattenedGuildIds();
 
@@ -143,13 +145,15 @@ export default (props: ModalProps): React.ReactElement => {
 
   const handleSubmit = React.useCallback(() => {
     cfg.set("blacklist", list);
-    void props.onClose();
-  }, [list, props.onClose]);
+    void onClose();
+  }, [list, onClose]);
 
   return (
     <Modal.ModalRoot transitionState={props.transitionState}>
       <Modal.ModalHeader direction={Flex.Direction.VERTICAL} separator={false}>
-        <Text.H1 variant="heading-xl/semibold">Server Blacklist</Text.H1>
+        <Text.H1 variant="heading-xl/semibold">
+          {Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
+        </Text.H1>
       </Modal.ModalHeader>
       <Modal.ModalContent className="readAllButton-blacklistModalContent">
         <SearchBar
@@ -171,7 +175,7 @@ export default (props: ModalProps): React.ReactElement => {
         <Button onClick={handleSubmit} type="submit">
           {Messages.DONE}
         </Button>
-        <Button onClick={props.onClose} look={Button.Looks.LINK} color={Button.Colors.PRIMARY}>
+        <Button onClick={onClose} look={Button.Looks.LINK} color={Button.Colors.PRIMARY}>
           {Messages.CLOSE}
         </Button>
       </Modal.ModalFooter>

@@ -2,7 +2,6 @@ import ServerBlacklistModal from "@components/ServerBlacklistModal";
 import { cfg } from "@utils/PluginSettingsUtils";
 import type React from "react";
 import { common, components, util } from "replugged";
-import { ReadTypeStrings } from "../constants";
 
 import "./Settings.css";
 
@@ -33,19 +32,19 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 
   switch (props.type) {
     case ReadType.DM:
-      header = ReadTypeStrings.DM;
+      header = Messages.READALLBUTTON_READ_TYPE_DM;
       break;
     case ReadType.GUILD_CHANNEL:
-      header = ReadTypeStrings.GUILD_CHANNEL;
+      header = Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL;
       break;
     case ReadType.GUILD_EVENT:
-      header = ReadTypeStrings.GUILD_EVENT;
+      header = Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT;
       break;
     case ReadType.GUILD_ONBOARDING_QUESTION:
-      header = ReadTypeStrings.GUILD_ONBOARDING_QUESTION;
+      header = Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION;
       break;
     case ReadType.MUTED_GUILD:
-      header = ReadTypeStrings.MUTED_GUILD;
+      header = Messages.READALLBUTTON_READ_TYPE_MUTED_GUILD;
       break;
   }
 
@@ -78,9 +77,11 @@ export default (): React.ReactElement => {
   return (
     <>
       <FormItem
-        title="Server Blacklist"
+        title={Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
         // TODO: blacklist length doesn't update
-        note={`${cfg.get("blacklist").length} servers won't get marked as read.`}
+        note={Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_NOTE.format({
+          count: cfg.get("blacklist").length,
+        })}
         style={{ marginBottom: 20 }}
         divider>
         <Button
@@ -92,7 +93,7 @@ export default (): React.ReactElement => {
             ))
           }
           size={Button.Sizes.SMALL}>
-          Edit Blacklist
+          {Messages.READALLBUTTON_SETTINGS_EDIT_BLACKLIST}
         </Button>
       </FormItem>
       <FormItem title={Messages.MARK_AS_READ} style={{ marginBottom: 20 }} divider>
@@ -108,14 +109,18 @@ export default (): React.ReactElement => {
         </Flex>
       </FormItem>
       <FormItem title={Messages.APPEARANCE}>
-        <SwitchItem {...useRoundButton}>Use a round button</SwitchItem>
-        <SwitchItem {...useText} note="Disables the tooltip as well.">
-          Display text instead of an icon
+        <SwitchItem {...useRoundButton}>
+          {Messages.READALLBUTTON_SETTINGS_ROUND_BUTTON_TITLE}
+        </SwitchItem>
+        <SwitchItem {...useText} note={Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_NOTE}>
+          {Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_TITLE}
         </SwitchItem>
       </FormItem>
       <FormItem title={Messages.OTHER}>
-        <SwitchItem {...showConfirm}>Ask for confirmation before marking as read</SwitchItem>
-        <SwitchItem {...showToasts}>Show a confirmation toast</SwitchItem>
+        <SwitchItem {...showConfirm}>
+          {Messages.READALLBUTTON_SETTINGS_ASK_CONFIRM_TITLE}
+        </SwitchItem>
+        <SwitchItem {...showToasts}>{Messages.READALLBUTTON_SETTINGS_SHOW_TOAST_TITLE}</SwitchItem>
       </FormItem>
     </>
   );

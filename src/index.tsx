@@ -1,13 +1,16 @@
 import ReadAllButton from "@components/ReadAllButton";
 import Settings from "@components/Settings";
+import translations from "@i18n";
 import type { GuildsNavComponent } from "@types";
-import { markDMsAsRead, markGuildAsRead } from "@utils/MarkAsReadUtils";
 import { cfg } from "@utils/PluginSettingsUtils";
 import { findInReactTree, forceUpdate } from "@utils/ReactUtils";
 import type React from "react";
-import { Injector, common, util, webpack } from "replugged";
+import { Injector, common, i18n, util, webpack } from "replugged";
 
-const { modal, toast } = common;
+const {
+  i18n: { Messages },
+  toast,
+} = common;
 
 export const inject = new Injector();
 
@@ -17,30 +20,13 @@ const classes = await webpack.waitForProps<Record<"guilds" | "sidebar", string>>
 );
 
 export function showClearedToast(readTypeString?: string): void {
-  const toastContent = readTypeString ? `Cleared ${readTypeString}!` : "Cleared everything!";
-
-  if (cfg.get("toasts")) toast.toast(toastContent, toast.Kind.SUCCESS);
-}
-
-async function markAsRead(): Promise<void> {
-  if (cfg.get("askConfirm")) {
-    if (
-      !(await modal.confirm({
-        title: "Mark All As Read",
-        body: "Are you sure you want to mark everything as read?",
-      }))
-    )
-      return;
-  }
-
-  try {
-    markGuildAsRead();
-    if (cfg.get("markDMs")) markDMsAsRead();
-    showClearedToast();
-  } catch (err) {
-    toast.toast("Something went wrong!", toast.Kind.FAILURE);
-    console.error(err);
-  }
+  if (cfg.get("toasts"))
+    toast.toast(
+      Messages.READALLBUTTON_CLEARED_TOAST.format({
+        type: readTypeString || Messages.READALLBUTTON_EVERYTHING,
+      }),
+      toast.Kind.SUCCESS,
+    );
 }
 
 async function patchGuildsNav(): Promise<void> {
@@ -78,11 +64,7 @@ function patchGuildsBar(component: JSX.Element): void {
 
     const homeButtonIndex = getIndexByKeyword("showProgressBadge");
 
-    advancedScrollerNone.props.children.splice(
-      homeButtonIndex + 1,
-      0,
-      <ReadAllButton onClick={markAsRead} />,
-    );
+    advancedScrollerNone.props.children.splice(homeButtonIndex + 1, 0, <ReadAllButton />);
 
     return res;
   });
@@ -91,6 +73,8 @@ function patchGuildsBar(component: JSX.Element): void {
 export { Settings, cfg };
 
 export async function start(): Promise<void> {
+  i18n.loadAllStrings(translations);
+
   await patchGuildsNav();
 }
 

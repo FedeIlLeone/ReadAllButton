@@ -1,0 +1,20 @@
+{
+  "READALLBUTTON_CLEARED_TOAST": "Pulito {type}!",
+  "READALLBUTTON_ERROR_GENERIC_TOAST": "Qualcosa è andato storto!",
+  "READALLBUTTON_EVERYTHING": "tutto",
+  "READALLBUTTON_MARK_ALL_READ_DESCRIPTION": "Così contrassegnerai tutto come già letto. Sei sicuro di voler procedere?",
+  "READALLBUTTON_READ_ALL": "Leggi tutto",
+  "READALLBUTTON_READ_TYPE_DM": "Messaggi diretti",
+  "READALLBUTTON_READ_TYPE_GUILD_CHANNEL": "Canali",
+  "READALLBUTTON_READ_TYPE_GUILD_EVENT": "Eventi",
+  "READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION": "Domande di inserimento",
+  "READALLBUTTON_READ_TYPE_MUTED_GUILD": "Server silenziati",
+  "READALLBUTTON_SETTINGS_ASK_CONFIRM_TITLE": "Chiedi conferma prima di contrassegnare come già letto",
+  "READALLBUTTON_SETTINGS_DISPLAY_TEXT_NOTE": "Disabilita anche il tooltip.",
+  "READALLBUTTON_SETTINGS_DISPLAY_TEXT_TITLE": "Mostra il testo invece di un'icona",
+  "READALLBUTTON_SETTINGS_EDIT_BLACKLIST": "Modifica lista nera",
+  "READALLBUTTON_SETTINGS_ROUND_BUTTON_TITLE": "Usa un pulsante rotondo",
+  "READALLBUTTON_SETTINGS_SERVER_BLACKLIST_NOTE": "{count} server non verranno contrassegnati come già letti.",
+  "READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE": "Lista nera dei server",
+  "READALLBUTTON_SETTINGS_SHOW_TOAST_TITLE": "Mostra un toast di conferma"
+}
