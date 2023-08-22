@@ -14,12 +14,10 @@ interface ReadAllButtonProps {
   onClick?: () => void;
 }
 
-export type ReadAllButtonType = React.FC<ReadAllButtonProps>;
-
 const classes =
   await webpack.waitForProps<Record<"listItem" | "unavailableBadge", string>>("unavailableBadge");
 
-export default ((props) => {
+export default (props: ReadAllButtonProps): React.ReactElement => {
   const [selected, setSelected] = React.useState(false);
 
   const useText = cfg.get("text");
@@ -43,4 +41,4 @@ export default ((props) => {
       </ListItemTooltip>
     </div>
   );
-}) as ReadAllButtonType;
+};

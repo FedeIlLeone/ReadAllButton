@@ -27,8 +27,6 @@ interface ModalProps {
   onClose(): Promise<void>;
 }
 
-export type ServerBlacklistModalType = React.FC<ModalProps>;
-
 function matchString(query: string, str: string): boolean {
   query = query.toLowerCase();
 
@@ -72,7 +70,7 @@ function search(guilds: Guild[], query: string): Guild[] {
   return matching;
 }
 
-export default ((props) => {
+export default (props: ModalProps): React.ReactElement => {
   const sortedGuilds = React.useMemo(() => {
     const guildIds = SortedGuildStore.getFlattenedGuildIds();
 
@@ -179,4 +177,4 @@ export default ((props) => {
       </Modal.ModalFooter>
     </Modal.ModalRoot>
   );
-}) as ServerBlacklistModalType;
+};

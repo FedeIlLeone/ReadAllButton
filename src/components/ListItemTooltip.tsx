@@ -16,14 +16,12 @@ interface ListItemTooltipProps {
   tooltipClass?: string;
 }
 
-export type ListItemTooltipType = React.FC<React.PropsWithChildren<ListItemTooltipProps>>;
-
 const classes =
   await webpack.waitForProps<Record<"listItemTooltip" | "listItemWrapper" | "selected", string>>(
     "listItemTooltip",
   );
 
-export default ((props) => {
+export default (props: React.PropsWithChildren<ListItemTooltipProps>): React.ReactElement => {
   const {
     disabled = false,
     disableWrapper = false,
@@ -51,4 +49,4 @@ export default ((props) => {
       )}
     </Tooltip>
   );
-}) as ListItemTooltipType;
+};

@@ -10,6 +10,7 @@
     "build": "replugged build plugin",
     "watch": "replugged build plugin --watch",
     "bundle": "replugged bundle plugin",
+    "release": "replugged release",
     "check": "tsc --noEmit",
     "prettier:check": "prettier ./src --check",
     "eslint:check": "eslint ./src",
@@ -21,7 +22,7 @@
   "author": "FedeIlLeone",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.5.1",
+    "@types/node": "^20.5.2",
     "@types/react": "^18.2.20",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",

@@ -7,9 +7,7 @@ interface DoubleCheckmarkProps {
   width?: number;
 }
 
-export type DoubleCheckmarkType = React.FC<DoubleCheckmarkProps>;
-
-export default ((props) => {
+export default (props: DoubleCheckmarkProps): React.ReactElement => {
   const { color = "currentColor", foreground, height = 16, width = 16 } = props;
 
   return (
@@ -21,4 +19,4 @@ export default ((props) => {
       />
     </svg>
   );
-}) as DoubleCheckmarkType;
+};

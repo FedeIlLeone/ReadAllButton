@@ -13,9 +13,7 @@ import { ReadTypeStrings } from "../constants";
 const { contextMenu } = common;
 const { ContextMenu: Menu } = components;
 
-export type ReadAllButtonContextMenuType = React.FC;
-
-export default (() => {
+export default (): React.ReactElement => {
   const guildIds = getFilteredGuildIds();
 
   return (
@@ -54,4 +52,4 @@ export default (() => {
       />
     </Menu.ContextMenu>
   );
-}) as ReadAllButtonContextMenuType;
+};

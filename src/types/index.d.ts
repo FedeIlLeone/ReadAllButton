@@ -1,6 +1,4 @@
-import type { RawModule } from "replugged/dist/types";
-
-type Comparator<T> = (a: T, b: T) => boolean;
+import type React from "react";
 
 interface GuildsNavProps {
   className: string;
@@ -9,8 +7,5 @@ interface GuildsNavProps {
   themeOverride: string;
 }
 
-interface GuildsNavComponent extends RawModule {
-  $$typeof: symbol;
-  compare: Comparator<unknown>;
-  type: (props: GuildsNavProps) => React.ReactElement;
-}
+type GuildsNavComponentType = (props: GuildsNavProps) => React.ReactElement;
+export type GuildsNavComponent = React.MemoExoticComponent<GuildsNavComponentType>;
