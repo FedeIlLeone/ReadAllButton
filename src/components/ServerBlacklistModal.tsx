@@ -74,7 +74,9 @@ export default (props: ModalProps): React.ReactElement => {
   const { onClose } = props;
 
   const sortedGuilds = React.useMemo(() => {
-    const guildIds = SortedGuildStore.getFlattenedGuildIds();
+    const guildIds = SortedGuildStore
+      ? SortedGuildStore.getFlattenedGuildIds()
+      : guilds.getGuildIds();
 
     const guildsList: Guild[] = [];
 

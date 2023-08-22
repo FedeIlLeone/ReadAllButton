@@ -88,4 +88,4 @@ export interface SortedGuildStore extends SnapshotStore<Snapshot> {
   takeSnapshot: () => Snapshot;
 }
 
-export default webpack.getByStoreName<SortedGuildStore>("SortedGuildStore")!;
+export default webpack.getByStoreName<SortedGuildStore>("SortedGuildStore");
