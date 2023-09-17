@@ -34,6 +34,7 @@ export function forceUpdate(element: Element | null): void {
   if (!element) return;
 
   const instance = util.getOwnerInstance(element);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (instance) {
     const forceRerender = inject.instead(instance, "render", () => {
       forceRerender();

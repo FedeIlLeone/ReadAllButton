@@ -21,6 +21,7 @@ const classes =
     "listItemTooltip",
   );
 
+/** Rewritten Discord's ListItemTooltip component */
 export default (props: React.PropsWithChildren<ListItemTooltipProps>): React.ReactElement => {
   const {
     disabled = false,

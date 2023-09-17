@@ -5,10 +5,7 @@ import { common, components, util } from "replugged";
 
 import "./Settings.css";
 
-const {
-  i18n: { Messages },
-  modal,
-} = common;
+const { i18n, modal } = common;
 const { Button, Checkbox, ErrorBoundary, Flex, FormItem, SwitchItem, Text } = components;
 
 enum ReadType {
@@ -32,19 +29,19 @@ function ReadListCheckbox(props: ReadListCheckboxProps): React.ReactElement {
 
   switch (props.type) {
     case ReadType.DM:
-      header = Messages.READALLBUTTON_READ_TYPE_DM;
+      header = i18n.Messages.READALLBUTTON_READ_TYPE_DM;
       break;
     case ReadType.GUILD_CHANNEL:
-      header = Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL;
+      header = i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL;
       break;
     case ReadType.GUILD_EVENT:
-      header = Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT;
+      header = i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT;
       break;
     case ReadType.GUILD_ONBOARDING_QUESTION:
-      header = Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION;
+      header = i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION;
       break;
     case ReadType.MUTED_GUILD:
-      header = Messages.READALLBUTTON_READ_TYPE_MUTED_GUILD;
+      header = i18n.Messages.READALLBUTTON_READ_TYPE_MUTED_GUILD;
       break;
   }
 
@@ -77,9 +74,9 @@ export default (): React.ReactElement => {
   return (
     <>
       <FormItem
-        title={Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
+        title={i18n.Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
         // TODO: blacklist length doesn't update
-        note={Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_NOTE.format({
+        note={i18n.Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_NOTE.format({
           count: cfg.get("blacklist").length,
         })}
         style={{ marginBottom: 20 }}
@@ -93,10 +90,10 @@ export default (): React.ReactElement => {
             ))
           }
           size={Button.Sizes.SMALL}>
-          {Messages.READALLBUTTON_SETTINGS_EDIT_BLACKLIST}
+          {i18n.Messages.READALLBUTTON_SETTINGS_EDIT_BLACKLIST}
         </Button>
       </FormItem>
-      <FormItem title={Messages.MARK_AS_READ} style={{ marginBottom: 20 }} divider>
+      <FormItem title={i18n.Messages.MARK_AS_READ} style={{ marginBottom: 20 }} divider>
         <Flex direction={Flex.Direction.VERTICAL} style={{ gap: 4 }}>
           <ReadListCheckbox {...markMuted} type={ReadType.MUTED_GUILD} />
           <ReadListCheckbox {...markChannels} type={ReadType.GUILD_CHANNEL} />
@@ -108,19 +105,21 @@ export default (): React.ReactElement => {
           />
         </Flex>
       </FormItem>
-      <FormItem title={Messages.APPEARANCE}>
+      <FormItem title={i18n.Messages.APPEARANCE}>
         <SwitchItem {...useRoundButton}>
-          {Messages.READALLBUTTON_SETTINGS_ROUND_BUTTON_TITLE}
+          {i18n.Messages.READALLBUTTON_SETTINGS_ROUND_BUTTON_TITLE}
         </SwitchItem>
-        <SwitchItem {...useText} note={Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_NOTE}>
-          {Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_TITLE}
+        <SwitchItem {...useText} note={i18n.Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_NOTE}>
+          {i18n.Messages.READALLBUTTON_SETTINGS_DISPLAY_TEXT_TITLE}
         </SwitchItem>
       </FormItem>
-      <FormItem title={Messages.OTHER}>
+      <FormItem title={i18n.Messages.OTHER}>
         <SwitchItem {...showConfirm}>
-          {Messages.READALLBUTTON_SETTINGS_ASK_CONFIRM_TITLE}
+          {i18n.Messages.READALLBUTTON_SETTINGS_ASK_CONFIRM_TITLE}
         </SwitchItem>
-        <SwitchItem {...showToasts}>{Messages.READALLBUTTON_SETTINGS_SHOW_TOAST_TITLE}</SwitchItem>
+        <SwitchItem {...showToasts}>
+          {i18n.Messages.READALLBUTTON_SETTINGS_SHOW_TOAST_TITLE}
+        </SwitchItem>
       </FormItem>
     </>
   );

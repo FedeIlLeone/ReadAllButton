@@ -1,7 +1,7 @@
 {
+  "READALLBUTTON_CLEARED_EVERYTHING_TOAST": "Pulito tutto!",
   "READALLBUTTON_CLEARED_TOAST": "Pulito {type}!",
   "READALLBUTTON_ERROR_GENERIC_TOAST": "Qualcosa è andato storto!",
-  "READALLBUTTON_EVERYTHING": "tutto",
   "READALLBUTTON_MARK_ALL_READ_DESCRIPTION": "Così contrassegnerai tutto come già letto. Sei sicuro di voler procedere?",
   "READALLBUTTON_READ_ALL": "Leggi tutto",
   "READALLBUTTON_READ_TYPE_DM": "Messaggi diretti",

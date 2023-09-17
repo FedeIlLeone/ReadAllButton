@@ -1,7 +1,7 @@
 import ReadAllButton from "@components/ReadAllButton";
 import Settings from "@components/Settings";
 import translations from "@i18n";
-import type { GuildsNavComponent } from "@types";
+import type { MemoGuildsNavType } from "@types";
 import { cfg } from "@utils/PluginSettingsUtils";
 import { findInReactTree, forceUpdate } from "@utils/ReactUtils";
 import type React from "react";
@@ -20,24 +20,23 @@ const classes = await webpack.waitForProps<Record<"guilds" | "sidebar", string>>
 );
 
 export function showClearedToast(readTypeString?: string): void {
-  if (cfg.get("toasts"))
-    toast.toast(
-      Messages.READALLBUTTON_CLEARED_TOAST.format({
-        type: readTypeString || Messages.READALLBUTTON_EVERYTHING,
-      }),
-      toast.Kind.SUCCESS,
-    );
+  if (!cfg.get("toasts")) return;
+
+  const message = readTypeString
+    ? Messages.READALLBUTTON_CLEARED_TOAST.format({ type: readTypeString })
+    : Messages.READALLBUTTON_CLEARED_EVERYTHING_TOAST;
+  toast.toast(message, toast.Kind.SUCCESS);
 }
 
 async function patchGuildsNav(): Promise<void> {
-  const GuildsNav = await webpack.waitForModule<GuildsNavComponent>(
+  const MemoGuildsNav = await webpack.waitForModule<MemoGuildsNavType>(
     webpack.filters.bySource("guildsnav"),
   );
 
-  inject.after(GuildsNav, "type", ([props], res) => {
+  inject.after(MemoGuildsNav, "type", ([props], res) => {
     const GuildsBar = findInReactTree(
       res,
-      (node) => node?.props?.className?.includes(props.className),
+      (node) => node.props?.className?.includes(props.className),
     );
     if (!GuildsBar) return res;
 
@@ -54,12 +53,12 @@ async function patchGuildsNav(): Promise<void> {
 
 function patchGuildsBar(component: JSX.Element): void {
   inject.after(component, "type", (_, res) => {
-    const advancedScrollerNone = findInReactTree(res, (node) => node?.props?.onScroll);
+    const advancedScrollerNone = findInReactTree(res, (node) => node.props?.onScroll);
     if (!advancedScrollerNone?.props?.children) return res;
 
     const getIndexByKeyword = (keyword: string): number =>
-      advancedScrollerNone.props.children.findIndex(
-        (child: React.ReactElement) => child?.type?.toString()?.includes(keyword),
+      advancedScrollerNone.props.children.findIndex((child: React.ReactElement) =>
+        child.type.toString().includes(keyword),
       );
 
     const homeButtonIndex = getIndexByKeyword("showProgressBadge");

@@ -9,10 +9,7 @@ import type React from "react";
 import { common, components } from "replugged";
 import { showClearedToast } from "..";
 
-const {
-  contextMenu,
-  i18n: { Messages },
-} = common;
+const { contextMenu, i18n } = common;
 const { ContextMenu: Menu } = components;
 
 export default (): React.ReactElement => {
@@ -22,34 +19,34 @@ export default (): React.ReactElement => {
     <Menu.ContextMenu navId="readallbutton-context" onClose={contextMenu.close}>
       <Menu.MenuItem
         id="direct-messages"
-        label={Messages.READALLBUTTON_READ_TYPE_DM}
+        label={i18n.Messages.READALLBUTTON_READ_TYPE_DM}
         action={() => {
           markDMsAsRead();
-          showClearedToast(Messages.READALLBUTTON_READ_TYPE_DM);
+          showClearedToast(i18n.Messages.READALLBUTTON_READ_TYPE_DM);
         }}
       />
       <Menu.MenuItem
         id="guild-channels"
-        label={Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL}
+        label={i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL}
         action={() => {
           readChannels(guildIds);
-          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL);
+          showClearedToast(i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_CHANNEL);
         }}
       />
       <Menu.MenuItem
         id="guild-events"
-        label={Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT}
+        label={i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT}
         action={() => {
           readEvents(guildIds);
-          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT);
+          showClearedToast(i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_EVENT);
         }}
       />
       <Menu.MenuItem
         id="guild-onboarding-questions"
-        label={Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION}
+        label={i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION}
         action={() => {
           readOnboardingQuestions(guildIds);
-          showClearedToast(Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION);
+          showClearedToast(i18n.Messages.READALLBUTTON_READ_TYPE_GUILD_ONBOARDING_QUESTION);
         }}
       />
     </Menu.ContextMenu>

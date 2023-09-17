@@ -1,7 +1,7 @@
 {
+  "READALLBUTTON_CLEARED_EVERYTHING_TOAST": "Cleared everything!",
   "READALLBUTTON_CLEARED_TOAST": "Cleared {type}!",
   "READALLBUTTON_ERROR_GENERIC_TOAST": "Something went wrong!",
-  "READALLBUTTON_EVERYTHING": "everything",
   "READALLBUTTON_MARK_ALL_READ_DESCRIPTION": "This will mark everything as read. Are you sure you want to continue?",
   "READALLBUTTON_READ_ALL": "Read All",
   "READALLBUTTON_READ_TYPE_DM": "Direct Messages",

@@ -7,5 +7,5 @@ interface GuildsNavProps {
   themeOverride: string;
 }
 
-type GuildsNavComponentType = (props: GuildsNavProps) => React.ReactElement;
-export type GuildsNavComponent = React.MemoExoticComponent<GuildsNavComponentType>;
+type GuildsNavType = (props: GuildsNavProps) => React.ReactElement;
+export type MemoGuildsNavType = React.MemoExoticComponent<GuildsNavType>;

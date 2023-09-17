@@ -4,8 +4,6 @@ import { webpack } from "replugged";
 interface SearchBarProps extends Omit<React.ComponentPropsWithoutRef<"div">, "onChange"> {
   "aria-label"?: string;
   autoComplete?: boolean;
-  autoFocus?: boolean;
-  className?: string;
   disabled?: boolean;
   hideSearchIcon?: boolean;
   iconClassName?: string;

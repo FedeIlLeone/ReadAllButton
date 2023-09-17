@@ -1,5 +1,5 @@
-import LazyScroller from "@components/LazyScroller";
-import SearchBar from "@components/SearchBar";
+import LazyScroller from "@components/webpack/LazyScroller";
+import SearchBar from "@components/webpack/SearchBar";
 import SortedGuildStore from "@stores/SortedGuildStore";
 import { cfg } from "@utils/PluginSettingsUtils";
 import type { Guild } from "discord-types/general";
@@ -7,11 +7,7 @@ import { common, components } from "replugged";
 
 import "./ServerBlacklistModal.css";
 
-const {
-  guilds,
-  i18n: { Messages },
-  React,
-} = common;
+const { guilds, i18n, React } = common;
 const { Button, Checkbox, Flex, Modal, Text } = components;
 
 enum ModalTransitionState {
@@ -90,7 +86,7 @@ export default (props: ModalProps): React.ReactElement => {
   }, []);
 
   const [query, setQuery] = React.useState("");
-  const [list, setList] = React.useState(cfg.get("blacklist") || []);
+  const [list, setList] = React.useState(cfg.get("blacklist"));
 
   const searched = search(sortedGuilds, query);
 
@@ -154,7 +150,7 @@ export default (props: ModalProps): React.ReactElement => {
     <Modal.ModalRoot transitionState={props.transitionState}>
       <Modal.ModalHeader direction={Flex.Direction.VERTICAL} separator={false}>
         <Text.H1 variant="heading-xl/semibold">
-          {Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
+          {i18n.Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
         </Text.H1>
       </Modal.ModalHeader>
       <Modal.ModalContent className="readAllButton-blacklistModalContent">
@@ -175,10 +171,10 @@ export default (props: ModalProps): React.ReactElement => {
       </Modal.ModalContent>
       <Modal.ModalFooter>
         <Button onClick={handleSubmit} type="submit">
-          {Messages.DONE}
+          {i18n.Messages.DONE}
         </Button>
         <Button onClick={onClose} look={Button.Looks.LINK} color={Button.Colors.PRIMARY}>
-          {Messages.CLOSE}
+          {i18n.Messages.CLOSE}
         </Button>
       </Modal.ModalFooter>
     </Modal.ModalRoot>

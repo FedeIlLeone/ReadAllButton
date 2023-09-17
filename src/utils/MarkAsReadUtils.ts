@@ -88,7 +88,7 @@ export function readOnboardingQuestions(guildIds: string[]): void {
  */
 export function markGuildAsRead(): void {
   const guildIds = getFilteredGuildIds();
-  if (!guildIds || guildIds.length === 0) return;
+  if (guildIds.length === 0) return;
 
   if (cfg.get("markChannels")) readChannels(guildIds);
   if (cfg.get("markGuildEvents")) readEvents(guildIds);
