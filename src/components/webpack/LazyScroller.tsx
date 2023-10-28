@@ -31,11 +31,11 @@ interface LazyScrollerProps {
 }
 
 export type LazyScrollerType = React.MemoExoticComponent<
-  React.ForwardRefExoticComponent<LazyScrollerProps> & {
-    render: React.ForwardRefRenderFunction<unknown, LazyScrollerProps>;
-  }
+  React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<LazyScrollerProps> & React.RefAttributes<unknown>
+  >
 >;
 
 export default await webpack.waitForModule<LazyScrollerType>(
-  webpack.filters.bySource(".stickyHeaders"),
+  webpack.filters.bySource(/listHeaderHeight:\w+,stickyHeaders/),
 );

@@ -2,7 +2,6 @@ import type React from "react";
 import { webpack } from "replugged";
 
 interface SearchBarProps extends Omit<React.ComponentPropsWithoutRef<"div">, "onChange"> {
-  "aria-label"?: string;
   autoComplete?: boolean;
   disabled?: boolean;
   hideSearchIcon?: boolean;
@@ -16,10 +15,8 @@ interface SearchBarProps extends Omit<React.ComponentPropsWithoutRef<"div">, "on
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
   onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
-  placeholder?: string;
   query?: string;
   size?: string;
-  style?: React.CSSProperties;
 }
 
 export type SearchBarType = React.FC<React.PropsWithChildren<SearchBarProps>> & {
@@ -28,5 +25,5 @@ export type SearchBarType = React.FC<React.PropsWithChildren<SearchBarProps>> & 
 };
 
 export default await webpack.waitForModule<SearchBarType>(
-  webpack.filters.bySource(/\.autoComplete.+inputProps/),
+  webpack.filters.bySource(/inputProps:\w+,hideSearchIcon/),
 );

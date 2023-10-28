@@ -67,7 +67,7 @@ function search(guilds: Guild[], query: string): Guild[] {
 }
 
 export default (props: ModalProps): React.ReactElement => {
-  const { onClose } = props;
+  const { transitionState, onClose } = props;
 
   const sortedGuilds = React.useMemo(() => {
     const guildIds = SortedGuildStore
@@ -147,7 +147,7 @@ export default (props: ModalProps): React.ReactElement => {
   }, [list, onClose]);
 
   return (
-    <Modal.ModalRoot transitionState={props.transitionState}>
+    <Modal.ModalRoot transitionState={transitionState}>
       <Modal.ModalHeader direction={Flex.Direction.VERTICAL} separator={false}>
         <Text.H1 variant="heading-xl/semibold">
           {i18n.Messages.READALLBUTTON_SETTINGS_SERVER_BLACKLIST_TITLE}
