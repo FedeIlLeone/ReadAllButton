@@ -1,3 +1,7 @@
+:warning: **Development moved at https://github.com/FedeIlLeone/replugged-plugins**
+
+---
+
 # ReadAllButton
 
 Replugged plugin that adds a button to mark as read everything.
